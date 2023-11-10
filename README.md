@@ -3,25 +3,33 @@
 =======
 # PAP2023Z-Z05
 
+## Overview
 
+Repozytorium projektu zespołu Z05 na przedmiot PAP2023Z.
 
-## Getting started
+## Contributors
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Członkowie zespołu:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+1. Grzegorz Statkiewicz
+2. Bartosz Psik
+3. Bartosz Jasiński
+4. Alicja Jonczyk
 
-## Add your files
+Prowadzący
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+1. Michał Chwesiuk
+
+## Structure
 
 ```
-cd existing_repo
-git remote add origin https://gitlab-stud.elka.pw.edu.pl/gstatkie/pap2023z-z05.git
-git branch -M main
-git push -uf origin main
+|- README.md
+|- docs/ - dokumentacja projektu
+    |- architecture.md - opis architektury aplikacji
+    |- requirements.md - opis wymagań projektowych
+|- src/ - kod źródłowy aplikacji
 ```
+<<<<<<< HEAD
 
 ## Integrate with your tools
 
@@ -94,3 +102,5 @@ For open source projects, say how it is licensed.
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
 >>>>>>> 9ac0bc7 (Initial commit)
+=======
+>>>>>>> d1d6f11 (Setup project requirements)
