@@ -12,11 +12,17 @@ public class MeetingRepository implements IMeetingRepository {
         table = client.table("meetings", TableSchema.fromBean(Meeting.class));
     }
 
+    @Override
     public Meeting one(String id) {
         var key = Key.builder()
                 .partitionValue(id)
                 .build();
 
         return table.getItem(key);
+    }
+
+    @Override
+    public void create(Meeting meeting) {
+        table.putItem(meeting);
     }
 }
