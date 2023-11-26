@@ -25,4 +25,9 @@ public class MeetingRepository implements IMeetingRepository {
     public void create(Meeting meeting) {
         table.putItem(meeting);
     }
+    @Override
+    public Meeting createAndSave(Meeting meeting){
+        create(meeting);
+        return meeting;
+    }
 }
