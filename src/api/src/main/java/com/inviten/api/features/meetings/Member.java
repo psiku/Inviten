@@ -6,19 +6,19 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 public class Member {
 
     private String phoneNumber;
-    private Role role;
+    private String role ;
 
-    public String getId() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setId(String id) {
+    public void setPhoneNumber(String id) {
         this.phoneNumber = phoneNumber ;
     }
 
-   public Role getRole() { return role; }
+   public String getRole() { return role; }
 
-    public void setRole(Role role ) {this.role = role; }
+    public void setRole(String role ) {this.role = role; }
 
 }
 

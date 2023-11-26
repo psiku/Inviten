@@ -41,5 +41,4 @@ public class Meeting {
     public void setParticipants(List<Member> participants) {
         this.participants = participants;
     }
-
 }
