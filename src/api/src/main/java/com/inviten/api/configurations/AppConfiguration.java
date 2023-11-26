@@ -14,12 +14,6 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 @Configuration
 public class AppConfiguration {
 
-    @Value("${aws.accessKeyId}")
-    private String accessKeyId;
-
-    @Value("${aws.secretAccessKey}")
-    private String secretAccessKey;
-
     @Bean
     public IMeetingRepository getMeetingRepository() {
         return new MeetingRepository(getAmazonDynamoDBClient());
@@ -29,8 +23,6 @@ public class AppConfiguration {
     public DynamoDbEnhancedClient getAmazonDynamoDBClient() {
         var dynamoDbClient = DynamoDbClient.builder()
             .region(Region.EU_NORTH_1)
-            .credentialsProvider(StaticCredentialsProvider.create(
-                    AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
             .build();
 
         return DynamoDbEnhancedClient.builder()
