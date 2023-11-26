@@ -1,9 +1,22 @@
 package com.inviten.api.features.meetings;
 
-public class MeetingRepository implements IMeetingRepository{
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+
+public class MeetingRepository implements IMeetingRepository {
+    private final DynamoDbTable<Meeting> table;
+
+    public MeetingRepository(DynamoDbEnhancedClient client) {
+        table = client.table("meetings", TableSchema.fromBean(Meeting.class));
+    }
+
     public Meeting one(String id) {
-        var meeting = new Meeting();
-        meeting.id = id;
-        return meeting;
+        var key = Key.builder()
+                .partitionValue(id)
+                .build();
+
+        return table.getItem(key);
     }
 }
