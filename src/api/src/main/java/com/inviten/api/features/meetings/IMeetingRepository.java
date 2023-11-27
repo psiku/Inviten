@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.inviten.api.features.meetings;
 
 public interface IMeetingRepository {
@@ -7,3 +8,20 @@ public interface IMeetingRepository {
 
     public Meeting createAndSave(Meeting meeting);
 }
+=======
+package com.inviten.api.features.meetings;
+
+import java.util.List;
+
+public interface IMeetingRepository {
+    public Meeting one(String id);
+
+    public void create(Meeting meeting);
+
+    public Meeting createAndSave(Meeting meeting);
+
+    public void addMember(String meetingId, Member member);
+
+    public void deleteMember(String meetingId, String phoneNumber);
+}
+>>>>>>> c1f624b (implementation of addMember and deleteMember functions)
