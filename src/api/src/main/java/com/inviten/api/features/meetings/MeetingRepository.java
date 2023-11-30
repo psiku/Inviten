@@ -35,10 +35,13 @@ public class MeetingRepository implements IMeetingRepository {
 =======
 package com.inviten.api.features.meetings;
 
+import com.inviten.api.exception.ApiException;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import com.inviten.api.exception.NotFoundException;
+import com.inviten.api.exception.ApiException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,24 +74,31 @@ public class MeetingRepository implements IMeetingRepository {
 
     @Override
     public void addMember(String meetingId, Member member){
-        Meeting meeting = one(meetingId);
 
-        if (meeting != null) {
-            List<Member> participants = meeting.getParticipants();
-            if (participants == null) {
-                participants = List.of(member);
-            }
-            else {
-                participants.add(member);
-            }
-            meeting.setParticipants(participants);
-            table.putItem(meeting);
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException("Meeting not found");
         }
+
+        List<Member> participants = meeting.getParticipants();
+        if (participants == null) {
+            participants = List.of(member);
+        }
+        else {
+            participants.add(member);
+        }
+        meeting.setParticipants(participants);
+        table.putItem(meeting);
     }
+
 
     @Override
     public void deleteMember(String meetingId, String phoneNumber){
         Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException("Meeting not found");
+        }
+
         List<Member> participants = meeting.getParticipants();
         int indexOfMember = -1;
         for (int i = 0; i < participants.size(); i++) {
