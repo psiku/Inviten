@@ -78,6 +78,7 @@ public class MeetingRepository implements IMeetingRepository {
         return meeting;
     }
 
+<<<<<<< HEAD
     @Override
     public void addMember(String meetingId, Member member){
 
@@ -159,6 +160,13 @@ public class MeetingRepository implements IMeetingRepository {
             table.putItem(meeting);
         }
     }
+=======
+    public void put(Meeting meeting)
+    {
+        table.putItem(meeting);
+    }
+
+>>>>>>> 20c175c (Implement placeProposal)
 }
 <<<<<<< HEAD
 
