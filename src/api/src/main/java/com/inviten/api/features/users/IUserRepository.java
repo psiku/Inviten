@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface IUserRepository {
 
-    public List<Meeting>getMeetings(String phoneNumber);
+
+    public User show(String id);
+    public void create(User user);
+
+    public void addMeeting(String userId, String meetingId);
 }

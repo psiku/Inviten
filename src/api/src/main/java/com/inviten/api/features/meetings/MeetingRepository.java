@@ -35,22 +35,29 @@ public class MeetingRepository implements IMeetingRepository {
 =======
 package com.inviten.api.features.meetings;
 
-import com.inviten.api.exception.ApiException;
+import com.inviten.api.features.users.User;
+import com.inviten.api.features.users.UserController;
+import com.inviten.api.features.users.UserRepository;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import com.inviten.api.exception.NotFoundException;
-import com.inviten.api.exception.ApiException;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class MeetingRepository implements IMeetingRepository {
     private final DynamoDbTable<Meeting> table;
+    private final DynamoDbTable<User> usersTable;
+
+    private final UserRepository userRepository;
+
 
     public MeetingRepository(DynamoDbEnhancedClient client) {
         table = client.table("meetings", TableSchema.fromBean(Meeting.class));
+        usersTable = client.table("users", TableSchema.fromBean(User.class));
+        this.userRepository = new UserRepository(client);
     }
 
     @Override
@@ -80,6 +87,24 @@ public class MeetingRepository implements IMeetingRepository {
             throw new NotFoundException();
         }
 
+        String UserPhoneNumber = member.getPhoneNumber();
+
+        User user = userRepository.show(UserPhoneNumber);
+        if (user == null) {
+            user = new User();
+            user.setPhoneNumber(UserPhoneNumber);
+            userRepository.create(user);
+        }
+
+        // lista spotkań MeeeetingUsera
+        List<String> userMeetings = user.getMeetingsIds();
+        if(userMeetings == null){
+            userMeetings = List.of(meetingId);
+        }
+        else{
+            userMeetings.add(meetingId);
+        }
+
         List<Member> participants = meeting.getParticipants();
         if (participants == null) {
             participants = List.of(member);
@@ -87,8 +112,11 @@ public class MeetingRepository implements IMeetingRepository {
         else {
             participants.add(member);
         }
+        // ustawiamy listę spotkań
+        user.setMeetingsIds(userMeetings);
         meeting.setParticipants(participants);
         table.putItem(meeting);
+        usersTable.putItem(user);
     }
 
 
@@ -97,6 +125,24 @@ public class MeetingRepository implements IMeetingRepository {
         Meeting meeting = one(meetingId);
         if (meeting == null) {
             throw new NotFoundException();
+        }
+
+        User user = userRepository.show(phoneNumber);
+
+        List<String> userMeetings = user.getMeetingsIds();
+        int indexOfUserMeeting = -1;
+        for(int j = 0; j < userMeetings.size(); j++){
+            String userMeetingId = userMeetings.get(j);
+            if(userMeetingId.equals(meetingId)){
+                indexOfUserMeeting = j;
+                break;
+            }
+        }
+
+        if(indexOfUserMeeting != -1){
+            userMeetings.remove(indexOfUserMeeting);
+            user.setMeetingsIds(userMeetings);
+            usersTable.putItem(user);
         }
 
         List<Member> participants = meeting.getParticipants();

@@ -15,8 +15,15 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("users/{phoneNumber}/meetings")
-    public List<Meeting> getMeetingsForUser(@PathVariable String phoneNumber) {
-        return userRepository.getMeetings(phoneNumber);
+    @GetMapping("users/{phoneNumber}")
+    public User show(@PathVariable String phoneNumber) {
+        return userRepository.show(phoneNumber);
     }
+
+    @PostMapping("users")
+    void create(@RequestBody User user) {
+        userRepository.create(user);
+    }
+
+
 }
