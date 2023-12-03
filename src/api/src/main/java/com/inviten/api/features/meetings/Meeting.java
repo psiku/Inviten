@@ -17,6 +17,7 @@ public class Meeting {
     private LocalTime time;
     private List<Member> participants;
     private List<DateProposal> dateProposals;
+    private boolean isDateChosen = false;
 
     @DynamoDbPartitionKey
     public String getId() {
@@ -50,6 +51,14 @@ public class Meeting {
 
     public void setDateProposals(List<DateProposal> dateProposals) {
         this.dateProposals = dateProposals;
+    }
+
+    public void setIsDateChosen(boolean isDateChosen) {
+        this.isDateChosen = isDateChosen;
+    }
+
+    public boolean getIsDateChosen(){
+        return isDateChosen;
     }
 }
 

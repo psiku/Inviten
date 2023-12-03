@@ -111,7 +111,9 @@ public class DateProposalRepository implements IDateProposalRepository {
     @Override
     public void addVote(String meetingId, String proposalId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
-
+        if(meeting.getIsDateChosen()){
+            return;
+        }
         List<DateProposal> dateProposals = meeting.getDateProposals();
         if(dateProposals == null) {
             List<DateProposal> newDateProposals = new ArrayList<>();
@@ -141,7 +143,9 @@ public class DateProposalRepository implements IDateProposalRepository {
     @Override
     public void removeVote(String meetingId, String proposalId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
-
+        if(meeting.getIsDateChosen()){
+            return;
+        }
         List<DateProposal> dateProposals = meeting.getDateProposals();
         if(dateProposals == null) {
             List<DateProposal> newDateProposals = new ArrayList<>();
@@ -179,6 +183,7 @@ public class DateProposalRepository implements IDateProposalRepository {
                 break;
             }
         }
+        meeting.setIsDateChosen(true);
         meetingTable.updateItem(meeting);
     }
 }

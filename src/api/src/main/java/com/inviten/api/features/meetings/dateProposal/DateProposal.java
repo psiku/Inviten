@@ -59,11 +59,6 @@ public class DateProposal {
         this.votes = votes;
     }
 
-    public void addVote(String voterId) {
-        this.votes.add(voterId);
-    }
 
-    public void removeVote(String voterId) {
-        this.votes.remove(voterId);
-    }
+
 }
