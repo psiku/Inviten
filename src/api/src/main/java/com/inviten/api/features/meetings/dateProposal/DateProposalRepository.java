@@ -105,6 +105,8 @@ public class DateProposalRepository implements IDateProposalRepository {
         meetingTable.updateItem(meeting);
     }
 
+
+
     @Override
     public void addVote(String meetingId, String placeId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
@@ -160,6 +162,7 @@ public class DateProposalRepository implements IDateProposalRepository {
                 break;
             }
         }
+        sortDateProposals(meeting);
         meeting.setDateProposals(dateProposals);
         meetingTable.updateItem(meeting);
     }

@@ -4,6 +4,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @DynamoDbBean
@@ -12,7 +13,7 @@ public class DateProposal {
     private LocalDate proposedDate;
     private LocalTime proposedTime;
     private String proposedBy;
-    private List<String> votes;
+    private List<String> votes = new ArrayList<>();
 
     public DateProposal() {
     }
