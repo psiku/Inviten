@@ -4,13 +4,10 @@ import com.inviten.api.features.meetings.IMeetingRepository;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import com.inviten.api.features.meetings.Meeting;
-import software.amazon.awssdk.services.dynamodb.endpoints.internal.Value;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Iterator;
-import java.util.Collections;
 
 @Service
 public class PlaceRepository implements IPlaceRepository{
@@ -24,6 +21,9 @@ public class PlaceRepository implements IPlaceRepository{
     @Override
     public void addPlaceProposal(Place place, String id) {
         Meeting meeting = meetingRepository.one(id);
+        if(meeting.getIsPlaceChosen()){
+            return;
+        }
         List<Place> places = meeting.getPlaceProposals();
         if(places == null){
             places = List.of(place);
@@ -38,6 +38,9 @@ public class PlaceRepository implements IPlaceRepository{
     @Override
     public void removePlaceProposal (Place place, String id){
         Meeting meeting = meetingRepository.one(id);
+        if(meeting.getIsPlaceChosen()){
+            return;
+        }
         List<Place> places = meeting.getPlaceProposals();
         if(places != null){
             Iterator<Place> iterator = places.iterator();
@@ -63,6 +66,9 @@ public class PlaceRepository implements IPlaceRepository{
     @Override
     public void addVote(String meetingId, String placeId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
+        if(meeting.getIsPlaceChosen()){
+            return;
+        }
         List<Place> places = meeting.getPlaceProposals();
         if(places == null) {
             List<Place> newPlaces = new ArrayList<>();
@@ -92,6 +98,9 @@ public class PlaceRepository implements IPlaceRepository{
     @Override
     public void removeVote(String meetingId, String placeId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
+        if(meeting.getIsPlaceChosen()){
+            return;
+        }
         List<Place> places = meeting.getPlaceProposals();
         if(places == null) {
             List<Place> newPlaces = new ArrayList<>();
@@ -115,6 +124,20 @@ public class PlaceRepository implements IPlaceRepository{
         }
         sortPlaces(meeting);
         meeting.setPlaceProposals(places);
+        meetingRepository.put(meeting);
+    }
+
+    @Override
+    public void confirmPlace(String meetingId, String proposalId){
+        Meeting meeting = meetingRepository.one(meetingId);
+        List<Place> placeProposals = meeting.getPlaceProposals();
+        for(Place proposal: placeProposals){
+            if(proposal.getId().equals(proposalId)){
+                meeting.setPlace(proposal);
+                break;
+            }
+        }
+        meeting.setIsPlaceChosen(true);
         meetingRepository.put(meeting);
     }
 

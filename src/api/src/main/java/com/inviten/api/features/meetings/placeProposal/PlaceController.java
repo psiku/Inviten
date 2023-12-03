@@ -29,4 +29,9 @@ public class PlaceController {
     void removeVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
         placeRepository.removeVote(meetingId, placeId, phoneNumber);
     }
+
+    @PutMapping("meetings/{meetingId}/place/{proposalId}/confirm")
+    void confirmPlace(@PathVariable String meetingId, @PathVariable String proposalId){
+        placeRepository.confirmPlace(meetingId, proposalId);
+    }
 }

@@ -8,4 +8,6 @@ public interface IPlaceRepository {
     public void addVote(String meetingId, String placeId, String phoneNumber);
 
     public void removeVote(String meetingId, String placeId, String phoneNumber);
+
+    public void confirmPlace(String meetingId, String proposalId);
 }

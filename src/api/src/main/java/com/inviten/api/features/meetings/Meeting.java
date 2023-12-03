@@ -88,6 +88,10 @@ public class Meeting {
     private List<Member> participants;
     private List<Place> placeProposals;
 
+    private boolean isPlaceChosen = false;
+
+    private Place place;
+
     @DynamoDbPartitionKey
     public String getId() {
         return id;
@@ -121,6 +125,18 @@ public class Meeting {
     public void setPlaceProposals(List<Place> placeProposals) {
         this.placeProposals = placeProposals;
     }
+
+    public void setIsPlaceChosen(boolean isPlaceChosen) {
+        this.isPlaceChosen = isPlaceChosen;
+    }
+
+    public boolean getIsPlaceChosen(){
+        return isPlaceChosen;
+    }
+
+    public Place getPlace() {return place; }
+
+    public void setPlace(Place place) {this.place = place;}
 }
 <<<<<<< HEAD
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)
