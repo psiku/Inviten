@@ -23,8 +23,13 @@ public interface IMeetingRepository {
     public void addMember(String meetingId, Member member);
 
     public void deleteMember(String meetingId, String phoneNumber);
+<<<<<<< HEAD
 =======
     public void put(Meeting meeting);
 >>>>>>> 20c175c (Implement placeProposal)
+=======
+
+    public void put(Meeting meeting);
+>>>>>>> 16719cb (added put method)
 }
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)
