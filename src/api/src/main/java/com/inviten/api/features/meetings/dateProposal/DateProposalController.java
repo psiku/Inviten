@@ -14,7 +14,7 @@ public class DateProposalController {
         this.dateProposalRepository = dateProposalRepository;
     }
 
-    @PostMapping
+    @PutMapping
     public void addDateProposal(@PathVariable String meetingId, @RequestBody DateProposal dateProposal) {
         dateProposalRepository.addDateProposal(meetingId, dateProposal);
     }
@@ -29,14 +29,16 @@ public class DateProposalController {
         dateProposalRepository.removeDateProposal(meetingId, proposalId);
     }
 
-    @PostMapping("/{proposalId}/vote")
-    public void voteForDateProposal(@PathVariable String meetingId, @PathVariable String proposalId, @RequestBody String voterId) {
-        dateProposalRepository.voteForDateProposal(meetingId, proposalId, voterId);
+
+
+    @PutMapping("/{proposalId}/user")
+    void addVote(@PathVariable String meetingId, @PathVariable String proposalId, @RequestBody String phoneNumber){
+        dateProposalRepository.addVote(meetingId, proposalId, phoneNumber);
     }
 
-    @DeleteMapping("/{proposalId}/unvote")
-    public void unvoteForDateProposal(@PathVariable String meetingId, @PathVariable String proposalId, @RequestBody String voterId) {
-        dateProposalRepository.unvoteForDateProposal(meetingId, proposalId, voterId);
+    @DeleteMapping("/{proposalId}/user/{phoneNumber}")
+    void removeVote(@PathVariable String meetingId, @PathVariable String proposalId, @PathVariable String phoneNumber){
+        dateProposalRepository.removeVote(meetingId, proposalId, phoneNumber);
     }
 
 //    @GetMapping

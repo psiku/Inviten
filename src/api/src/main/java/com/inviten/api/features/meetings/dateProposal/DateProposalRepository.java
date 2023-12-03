@@ -1,5 +1,6 @@
 package com.inviten.api.features.meetings.dateProposal;
 
+import com.inviten.api.features.meetings.IMeetingRepository;
 import org.springframework.stereotype.Repository;
 import com.inviten.api.features.meetings.Meeting;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
@@ -9,14 +10,19 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
 public class DateProposalRepository implements IDateProposalRepository {
     private final DynamoDbTable<Meeting> meetingTable;
 
-    public DateProposalRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
+    private final IMeetingRepository meetingRepository;
+
+    public DateProposalRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient, IMeetingRepository meetingRepository) {
         this.meetingTable = dynamoDbEnhancedClient.table("meetings", TableSchema.fromBean(Meeting.class));
+        this.meetingRepository = meetingRepository;
     }
 
     @Override
@@ -92,13 +98,69 @@ public class DateProposalRepository implements IDateProposalRepository {
         }
     }
 
-    @Override
-    public void voteForDateProposal(String meetingId, String proposalId, String voterId) {
-
+    private void sortDateProposals(Meeting meeting) {
+        List<DateProposal> dateProposals = meeting.getDateProposals();
+        dateProposals.sort((dp1, dp2) -> dp2.getVotes().size() - dp1.getVotes().size());
+        meeting.setDateProposals(dateProposals);
+        meetingTable.updateItem(meeting);
     }
 
     @Override
-    public void unvoteForDateProposal(String meetingId, String proposalId, String voterId) {
+    public void addVote(String meetingId, String placeId, String phoneNumber) {
+        Meeting meeting = meetingRepository.one(meetingId);
 
+        List<DateProposal> dateProposals = meeting.getDateProposals();
+        if(dateProposals == null) {
+            List<DateProposal> newDateProposals = new ArrayList<>();
+            dateProposals = newDateProposals;
+        }
+        Iterator<DateProposal> iterator = dateProposals.iterator();
+        while (iterator.hasNext()) {
+            DateProposal currentPlace = iterator.next();
+            if (currentPlace.getId().equals(placeId)) {
+                List<String> votes = currentPlace.getVotes();
+                if(votes == null)
+                {
+                    votes = List.of(phoneNumber);
+                }
+                else{
+                    votes.add(phoneNumber);
+                }
+                currentPlace.setVotes(votes);
+                break;
+            }
+        }
+        sortDateProposals(meeting);
+        meeting.setDateProposals(dateProposals);
+        meetingTable.updateItem(meeting);
+    }
+
+    @Override
+    public void removeVote(String meetingId, String placeId, String phoneNumber) {
+        Meeting meeting = meetingRepository.one(meetingId);
+
+        List<DateProposal> dateProposals = meeting.getDateProposals();
+        if(dateProposals == null) {
+            List<DateProposal> newDateProposals = new ArrayList<>();
+            dateProposals = newDateProposals;
+        }
+        Iterator<DateProposal> iterator = dateProposals.iterator();
+        while (iterator.hasNext()) {
+            DateProposal currentPlace = iterator.next();
+            if (currentPlace.getId().equals(placeId)) {
+                List<String> votes = currentPlace.getVotes();
+                if(votes == null)
+                {
+                    votes = List.of(phoneNumber);
+                }
+                else{
+                    votes.remove(phoneNumber);
+                }
+                currentPlace.setVotes(votes);
+                break;
+            }
+        }
+        meeting.setDateProposals(dateProposals);
+        meetingTable.updateItem(meeting);
     }
 }
