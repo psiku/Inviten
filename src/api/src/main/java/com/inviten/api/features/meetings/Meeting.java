@@ -60,5 +60,7 @@ public class Meeting {
     public boolean getIsDateChosen(){
         return isDateChosen;
     }
+
+    //
 }
 
