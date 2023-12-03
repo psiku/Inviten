@@ -41,6 +41,25 @@
 		5709B34CF0A7D63546082F79 /* Pods-inviten.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inviten.release.xcconfig"; path = "Target Support Files/Pods-inviten/Pods-inviten.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-inviten-invitenTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inviten-invitenTests.debug.xcconfig"; path = "Target Support Files/Pods-inviten-invitenTests/Pods-inviten-invitenTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-inviten.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-inviten.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66F7E1B02B1BDFA200B54E98 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
+		66F7E1B12B1BDFA200B54E98 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		66F7E1B22B1BDFA200B54E98 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		66F7E1B32B1BDFA200B54E98 /* FontAwesome6_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Regular.ttf; sourceTree = "<group>"; };
+		66F7E1B42B1BDFA200B54E98 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		66F7E1B52B1BDFA200B54E98 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		66F7E1B62B1BDFA200B54E98 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		66F7E1B72B1BDFA200B54E98 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
+		66F7E1B82B1BDFA200B54E98 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		66F7E1B92B1BDFA200B54E98 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		66F7E1BA2B1BDFA200B54E98 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		66F7E1BB2B1BDFA200B54E98 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		66F7E1BC2B1BDFA200B54E98 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		66F7E1BD2B1BDFA200B54E98 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		66F7E1BE2B1BDFA200B54E98 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		66F7E1BF2B1BDFA200B54E98 /* FontAwesome6_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Solid.ttf; sourceTree = "<group>"; };
+		66F7E1C02B1BDFA200B54E98 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		66F7E1C12B1BDFA200B54E98 /* FontAwesome6_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome6_Brands.ttf; sourceTree = "<group>"; };
+		66F7E1C22B1BDFA200B54E98 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = inviten/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-inviten-invitenTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-inviten-invitenTests.release.xcconfig"; path = "Target Support Files/Pods-inviten-invitenTests/Pods-inviten-invitenTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -106,6 +125,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		66F7E1AF2B1BDFA200B54E98 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				66F7E1B02B1BDFA200B54E98 /* Fontisto.ttf */,
+				66F7E1B12B1BDFA200B54E98 /* Octicons.ttf */,
+				66F7E1B22B1BDFA200B54E98 /* Feather.ttf */,
+				66F7E1B32B1BDFA200B54E98 /* FontAwesome6_Regular.ttf */,
+				66F7E1B42B1BDFA200B54E98 /* Entypo.ttf */,
+				66F7E1B52B1BDFA200B54E98 /* FontAwesome5_Brands.ttf */,
+				66F7E1B62B1BDFA200B54E98 /* MaterialCommunityIcons.ttf */,
+				66F7E1B72B1BDFA200B54E98 /* AntDesign.ttf */,
+				66F7E1B82B1BDFA200B54E98 /* Foundation.ttf */,
+				66F7E1B92B1BDFA200B54E98 /* Ionicons.ttf */,
+				66F7E1BA2B1BDFA200B54E98 /* FontAwesome5_Solid.ttf */,
+				66F7E1BB2B1BDFA200B54E98 /* FontAwesome5_Regular.ttf */,
+				66F7E1BC2B1BDFA200B54E98 /* FontAwesome.ttf */,
+				66F7E1BD2B1BDFA200B54E98 /* Zocial.ttf */,
+				66F7E1BE2B1BDFA200B54E98 /* EvilIcons.ttf */,
+				66F7E1BF2B1BDFA200B54E98 /* FontAwesome6_Solid.ttf */,
+				66F7E1C02B1BDFA200B54E98 /* SimpleLineIcons.ttf */,
+				66F7E1C12B1BDFA200B54E98 /* FontAwesome6_Brands.ttf */,
+				66F7E1C22B1BDFA200B54E98 /* MaterialIcons.ttf */,
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +162,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				66F7E1AF2B1BDFA200B54E98 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* inviten */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* invitenTests */,

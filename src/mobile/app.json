@@ -1,4 +1,7 @@
 {
   "name": "inviten",
-  "displayName": "inviten"
+  "displayName": "inviten",
+  "infoPlist": {
+    "UIViewControllerBasedStatusBarAppearance": true // TODO: move to Info.plst
+  }
 }
