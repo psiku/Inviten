@@ -1,4 +1,4 @@
-package com.inviten.api.features.meetings.date_proposal;
+package com.inviten.api.features.meetings.dateProposal;
 
 import org.springframework.stereotype.Repository;
 import com.inviten.api.features.meetings.Meeting;

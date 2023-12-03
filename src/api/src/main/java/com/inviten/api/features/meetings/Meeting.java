@@ -1,7 +1,7 @@
 package com.inviten.api.features.meetings;
 
 
-import com.inviten.api.features.meetings.date_proposal.DateProposal;
+import com.inviten.api.features.meetings.dateProposal.DateProposal;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
