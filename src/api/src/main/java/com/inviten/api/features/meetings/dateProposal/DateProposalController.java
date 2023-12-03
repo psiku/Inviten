@@ -41,6 +41,11 @@ public class DateProposalController {
         dateProposalRepository.removeVote(meetingId, proposalId, phoneNumber);
     }
 
+    @PutMapping("/{proposalId}/confirm")
+    void confirmDate(@PathVariable String meetingId, @PathVariable String proposalId){
+        dateProposalRepository.confirmDate(meetingId, proposalId);
+    }
+
 //    @GetMapping
 //    public List<DateProposal> getDateProposals(@PathVariable String meetingId) {
 //        return dateProposalRepository.findByMeetingId(meetingId);
