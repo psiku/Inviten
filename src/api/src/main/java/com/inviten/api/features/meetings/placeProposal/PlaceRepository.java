@@ -4,9 +4,13 @@ import com.inviten.api.features.meetings.IMeetingRepository;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import com.inviten.api.features.meetings.Meeting;
+import software.amazon.awssdk.services.dynamodb.endpoints.internal.Value;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Collections;
 
 @Service
 public class PlaceRepository implements IPlaceRepository{
@@ -43,6 +47,62 @@ public class PlaceRepository implements IPlaceRepository{
                     iterator.remove();
                     break;
                 }
+            }
+        }
+        meeting.setPlaceProposals(places);
+        meetingRepository.put(meeting);
+    }
+
+    @Override
+    public void addVote(String meetingId, String placeId, String phoneNumber) {
+        Meeting meeting = meetingRepository.one(meetingId);
+        List<Place> places = meeting.getPlaceProposals();
+        if(places == null) {
+            List<Place> newPlaces = new ArrayList<>();
+            places = newPlaces;
+        }
+        Iterator<Place> iterator = places.iterator();
+        while (iterator.hasNext()) {
+            Place currentPlace = iterator.next();
+            if (currentPlace.getId().equals(placeId)) {
+                List<String> votes = currentPlace.getVotes();
+                if(votes == null)
+                {
+                    votes = List.of(phoneNumber);
+                }
+                else{
+                    votes.add(phoneNumber);
+                }
+                currentPlace.setVotes(votes);
+                break;
+            }
+        }
+        meeting.setPlaceProposals(places);
+        meetingRepository.put(meeting);
+    }
+
+    @Override
+    public void removeVote(String meetingId, String placeId, String phoneNumber) {
+        Meeting meeting = meetingRepository.one(meetingId);
+        List<Place> places = meeting.getPlaceProposals();
+        if(places == null) {
+            List<Place> newPlaces = new ArrayList<>();
+            places = newPlaces;
+        }
+        Iterator<Place> iterator = places.iterator();
+        while (iterator.hasNext()) {
+            Place currentPlace = iterator.next();
+            if (currentPlace.getId().equals(placeId)) {
+                List<String> votes = currentPlace.getVotes();
+                if(votes == null)
+                {
+                    votes = List.of(phoneNumber);
+                }
+                else{
+                    votes.remove(phoneNumber);
+                }
+                currentPlace.setVotes(votes);
+                break;
             }
         }
         meeting.setPlaceProposals(places);

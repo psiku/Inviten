@@ -19,4 +19,14 @@ public class PlaceController {
     void removePlaceProposal(@RequestBody Place place, @PathVariable String id){
         placeRepository.removePlaceProposal(place, id);
     }
+
+    @PutMapping("/meetings/{meetingId}/places/{placeId}/user")
+    void addVote(@PathVariable String meetingId, @PathVariable String placeId, @RequestBody String phoneNumber){
+        placeRepository.addVote(meetingId, placeId, phoneNumber);
+    }
+
+    @DeleteMapping("/meetings/{meetingId}/places/{placeId}/user/{phoneNumber}")
+    void removeVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
+        placeRepository.removeVote(meetingId, placeId, phoneNumber);
+    }
 }

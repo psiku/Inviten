@@ -47,8 +47,4 @@ public class Place {
     public List<String> getVotes() { return votes; }
 
     public void setVotes(List<String> votes) { this.votes = votes; }
-
-    public void addVote(String voteId) { votes.add(voteId); }
-
-    public void removeVote(String voteId) { votes.remove(voteId); }
 }
