@@ -53,6 +53,13 @@ public class PlaceRepository implements IPlaceRepository{
         meetingRepository.put(meeting);
     }
 
+    private void sortPlaces(Meeting meeting) {
+        List<Place> places = meeting.getPlaceProposals();
+        places.sort((dp1, dp2) -> dp2.getVotes().size() - dp1.getVotes().size());
+        meeting.setPlaceProposals(places);
+        meetingRepository.put(meeting);
+    }
+
     @Override
     public void addVote(String meetingId, String placeId, String phoneNumber) {
         Meeting meeting = meetingRepository.one(meetingId);
@@ -77,6 +84,7 @@ public class PlaceRepository implements IPlaceRepository{
                 break;
             }
         }
+        sortPlaces(meeting);
         meeting.setPlaceProposals(places);
         meetingRepository.put(meeting);
     }
@@ -105,6 +113,7 @@ public class PlaceRepository implements IPlaceRepository{
                 break;
             }
         }
+        sortPlaces(meeting);
         meeting.setPlaceProposals(places);
         meetingRepository.put(meeting);
     }

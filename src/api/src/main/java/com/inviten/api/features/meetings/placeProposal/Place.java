@@ -3,6 +3,7 @@ package com.inviten.api.features.meetings.placeProposal;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import java.util.List;
+import java.util.ArrayList;
 
 @DynamoDbBean
 public class Place {
@@ -17,7 +18,7 @@ public class Place {
     private String note;
     // private User proposedBy; + getter i setter
 
-    private List<String> votes;
+    private List<String> votes = new ArrayList<>();
 
     @DynamoDbPartitionKey
     public String getId() {
