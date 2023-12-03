@@ -3,10 +3,11 @@ package com.inviten.api.features.users;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
+
 import java.util.List;
 
 @DynamoDbBean
-public class User {
+public class UserMeetings {
 
     private String phoneNumber;
 
@@ -20,6 +21,7 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
 
     public List<String> getMeetingsIds() {
         return MeetingsIds;
