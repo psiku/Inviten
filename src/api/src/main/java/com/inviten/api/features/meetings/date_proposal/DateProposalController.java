@@ -1,6 +1,7 @@
 package com.inviten.api.features.meetings.date_proposal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class DateProposalController {
         dateProposalRepository.unvoteForDateProposal(meetingId, proposalId, voterId);
     }
 
-    @GetMapping
-    public List<DateProposal> getDateProposals(@PathVariable String meetingId) {
-        return dateProposalRepository.findByMeetingId(meetingId);
-    }
+//    @GetMapping
+//    public List<DateProposal> getDateProposals(@PathVariable String meetingId) {
+//        return dateProposalRepository.findByMeetingId(meetingId);
+//    }
 }

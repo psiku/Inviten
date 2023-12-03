@@ -1,19 +1,22 @@
 package com.inviten.api.features.meetings.date_proposal;
-import org.springframework.stereotype.Repository;
 
+import org.springframework.stereotype.Repository;
+import com.inviten.api.features.meetings.Meeting;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @Repository
 public class DateProposalRepository implements IDateProposalRepository {
-    private final DynamoDbTable<DateProposal> dateProposalTable;
+    private final DynamoDbTable<Meeting> meetingTable;
 
     public DateProposalRepository(DynamoDbEnhancedClient dynamoDbEnhancedClient) {
-        this.dateProposalTable = dynamoDbEnhancedClient.table("DateProposals", TableSchema.fromBean(DateProposal.class));
+        this.meetingTable = dynamoDbEnhancedClient.table("meetings", TableSchema.fromBean(Meeting.class));
     }
 
     @Override
@@ -21,26 +24,55 @@ public class DateProposalRepository implements IDateProposalRepository {
         try {
             Key key = Key.builder()
                     .partitionValue(meetingId)
-                    .sortValue(proposalId)
                     .build();
-            return dateProposalTable.getItem(key);
+            Meeting meeting = meetingTable.getItem(key);
+            if (meeting != null && meeting.getDateProposals() != null) {
+                for (DateProposal proposal : meeting.getDateProposals()) {
+                    if (proposal.getId().equals(proposalId)) {
+                        return proposal;
+                    }
+                }
+            }
         } catch (DynamoDbException e) {
-
+            e.printStackTrace();
         }
         return null;
     }
 
     @Override
     public List<DateProposal> findByMeetingId(String meetingId) {
-        return null;
+        try {
+            Key key = Key.builder()
+                    .partitionValue(meetingId)
+                    .build();
+            Meeting meeting = meetingTable.getItem(key);
+            return meeting != null ? meeting.getDateProposals() : null;
+        } catch (DynamoDbException e) {
+
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     @Override
     public void addDateProposal(String meetingId, DateProposal dateProposal) {
         try {
-            dateProposalTable.putItem(dateProposal);
+            Key key = Key.builder()
+                    .partitionValue(meetingId)
+                    .build();
+            Meeting meeting = meetingTable.getItem(key);
+            if (meeting != null) {
+                List<DateProposal> proposals = meeting.getDateProposals();
+                if (proposals == null) {
+                    proposals = new ArrayList<>();
+                }
+                proposals.add(dateProposal);
+                meeting.setDateProposals(proposals);
+                meetingTable.updateItem(meeting);
+            }
         } catch (DynamoDbException e) {
 
+            e.printStackTrace();
         }
     }
 
@@ -49,11 +81,14 @@ public class DateProposalRepository implements IDateProposalRepository {
         try {
             Key key = Key.builder()
                     .partitionValue(meetingId)
-                    .sortValue(proposalId)
                     .build();
-            dateProposalTable.deleteItem(key);
+            Meeting meeting = meetingTable.getItem(key);
+            if (meeting != null && meeting.getDateProposals() != null) {
+                meeting.getDateProposals().removeIf(proposal -> proposal.getId().equals(proposalId));
+                meetingTable.updateItem(meeting);
+            }
         } catch (DynamoDbException e) {
-
+            e.printStackTrace();
         }
     }
 

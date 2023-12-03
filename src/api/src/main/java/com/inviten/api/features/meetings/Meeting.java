@@ -52,3 +52,4 @@ public class Meeting {
         this.dateProposals = dateProposals;
     }
 }
+
