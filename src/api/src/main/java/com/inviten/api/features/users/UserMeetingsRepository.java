@@ -86,7 +86,6 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
                 PageIterable<Meeting> pagedResults = meetings.scan(scanEnhancedRequest);
 
                 pagedResults.items().forEach(meeting -> {
-                    System.out.println("Found meeting with id: " + meeting.getId());
                     userMeetings.add(meeting);
                 });
             }

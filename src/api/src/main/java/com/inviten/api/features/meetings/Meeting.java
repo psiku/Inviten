@@ -86,9 +86,14 @@ public class Meeting {
     private LocalDate date;
     private LocalTime time;
     private List<Member> participants;
+<<<<<<< HEAD
+=======
+    private List<DateProposal> dateProposals;
+>>>>>>> a481e6c (Refactoring)
     private List<Place> placeProposals;
 
     private boolean isPlaceChosen = false;
+    private boolean isDateChosen = false;
 
     private Place place;
 
