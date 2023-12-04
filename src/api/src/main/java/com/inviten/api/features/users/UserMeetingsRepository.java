@@ -53,6 +53,13 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
     }
 
     @Override
+    public void delete(String UserPhoneNumber) {
+        users.deleteItem(Key.builder()
+                .partitionValue(UserPhoneNumber)
+                .build());
+    }
+
+    @Override
     public List<Meeting> getUsersMeetings(String userPhoneNumber) {
         //chcemy jego listę więc zakładamy że istnieje
         UserMeetings user = show(userPhoneNumber);

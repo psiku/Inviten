@@ -10,27 +10,27 @@ public class PlaceController {
         this.placeRepository = placeRepository;
     }
 
-    @PutMapping("/meetings/{id}/places")
-    void addPlaceProposal(@RequestBody Place place, @PathVariable String id){
-        placeRepository.addPlaceProposal(place, id);
+    @PutMapping("/meetings/{meetingId}/places")
+    void addPlaceProposal(@RequestBody Place place, @PathVariable String meetingId){
+        placeRepository.addPlaceProposal(place, meetingId);
     }
 
-    @DeleteMapping("/meetings/{id}/places")
-    void removePlaceProposal(@RequestBody Place place, @PathVariable String id){
-        placeRepository.removePlaceProposal(place, id);
+    @DeleteMapping("/meetings/{meetingId}/places")
+    void removePlaceProposal(@RequestBody Place place, @PathVariable String meetingId){
+        placeRepository.removePlaceProposal(place, meetingId);
     }
 
-    @PutMapping("/meetings/{meetingId}/places/{placeId}/user")
-    void addVote(@PathVariable String meetingId, @PathVariable String placeId, @RequestBody String phoneNumber){
+    @PostMapping("/meetings/{meetingId}/places/{placeId}/vote/{phoneNumber}")
+    void addVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
         placeRepository.addVote(meetingId, placeId, phoneNumber);
     }
 
-    @DeleteMapping("/meetings/{meetingId}/places/{placeId}/user/{phoneNumber}")
+    @PostMapping("/meetings/{meetingId}/places/{placeId}/unvote/{phoneNumber}")
     void removeVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
         placeRepository.removeVote(meetingId, placeId, phoneNumber);
     }
 
-    @PutMapping("meetings/{meetingId}/place/{proposalId}/confirm")
+    @PostMapping("meetings/{meetingId}/places/{proposalId}/pick")
     void confirmPlace(@PathVariable String meetingId, @PathVariable String proposalId){
         placeRepository.confirmPlace(meetingId, proposalId);
     }

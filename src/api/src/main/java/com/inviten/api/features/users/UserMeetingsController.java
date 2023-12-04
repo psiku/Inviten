@@ -29,4 +29,9 @@ public class UserMeetingsController {
         return userRepository.getUsersMeetings(phoneNumber);
     }
 
+    @DeleteMapping("users/{phoneNumber}")
+    public void delete(@PathVariable String phoneNumber) {
+        userRepository.delete(phoneNumber);
+    }
+
 }

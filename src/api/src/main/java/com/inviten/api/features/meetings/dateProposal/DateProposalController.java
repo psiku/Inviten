@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/meetings/{meetingId}/date")
+@RequestMapping("/meetings/{meetingId}/dates")
 public class DateProposalController {
 
     private final IDateProposalRepository dateProposalRepository;
@@ -31,17 +31,17 @@ public class DateProposalController {
 
 
 
-    @PutMapping("/{proposalId}/user")
+    @PostMapping("/{proposalId}/vote")
     void addVote(@PathVariable String meetingId, @PathVariable String proposalId, @RequestBody String phoneNumber){
         dateProposalRepository.addVote(meetingId, proposalId, phoneNumber);
     }
 
-    @DeleteMapping("/{proposalId}/user/{phoneNumber}")
+    @PostMapping("/{proposalId}/unvote/{phoneNumber}")
     void removeVote(@PathVariable String meetingId, @PathVariable String proposalId, @PathVariable String phoneNumber){
         dateProposalRepository.removeVote(meetingId, proposalId, phoneNumber);
     }
 
-    @PutMapping("/{proposalId}/confirm")
+    @PostMapping("/{proposalId}/schedule")
     void confirmDate(@PathVariable String meetingId, @PathVariable String proposalId){
         dateProposalRepository.confirmDate(meetingId, proposalId);
     }

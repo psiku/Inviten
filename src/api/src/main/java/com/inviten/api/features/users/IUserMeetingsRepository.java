@@ -12,5 +12,7 @@ public interface IUserMeetingsRepository {
 
     public void addMeeting(String userId, String meetingId);
 
+    public void delete(String UserPhoneNumber);
+
     public List<Meeting> getUsersMeetings(String userPhoneNumber);
 }
