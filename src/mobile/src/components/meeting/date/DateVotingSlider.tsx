@@ -82,7 +82,7 @@ export const DateVotingSlider = ({
 
     if (proposals?.length === 0) {
         return (
-            <View className="flex items-center">
+            <View className="h-16 flex items-center">
                 <Text className="text-gray-400  italic">
                     No available dates
                 </Text>

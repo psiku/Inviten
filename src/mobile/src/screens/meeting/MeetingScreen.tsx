@@ -84,7 +84,7 @@ export const MeetingScreen: NavigationFunctionComponent<
     return (
         <SafeAreaView>
             <View className="p-5 h-screen">
-                <View className="flex-row space-x-2">
+                <View className="mb-1 flex-row space-x-2">
                     <Text className="text-gray-300 text-xs font-semibold italic">
                         owned
                     </Text>

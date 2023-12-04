@@ -12,8 +12,8 @@ export const AvatarList = ({
     const namesToDisplay = shortNames.slice(0, maxLength);
     return (
         <View className="flex-row">
-            {namesToDisplay.map(shortName => (
-                <View className="-mr-2">
+            {namesToDisplay.map((shortName, i) => (
+                <View className="-mr-2" key={i}>
                     <Avatar shortName={shortName} />
                 </View>
             ))}

@@ -14,6 +14,9 @@ Navigation.setDefaultOptions({
         background: {
             color: 'black',
         },
+        backButton: {
+            color: '#a78bfa',
+        },
     },
     layout: {
         componentBackgroundColor: 'black',

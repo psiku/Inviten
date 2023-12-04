@@ -42,8 +42,8 @@ export const PlaceVotingList = ({
                     <View
                         className={
                             item.voted
-                                ? 'flex mb-1 py-2 px-4 bg-violet-800/90 rounded-l-lg rounded-tr-lg'
-                                : 'flex mb-1 py-2 px-4 bg-neutral-800/90 rounded-l-lg rounded-tr-lg'
+                                ? 'flex mb-1 p-4 bg-violet-800/90 rounded-l-lg rounded-tr-lg'
+                                : 'flex mb-1 p-4 bg-neutral-800/90 rounded-l-lg rounded-tr-lg'
                         }>
                         <View>
                             <View className="flex-row justify-between items-center">
@@ -95,7 +95,7 @@ export const PlaceVotingList = ({
 
     if (proposals?.length === 0) {
         return (
-            <View className="flex items-center">
+            <View className="h-16  flex items-center">
                 <Text className="text-gray-400  italic">
                     No available places
                 </Text>
