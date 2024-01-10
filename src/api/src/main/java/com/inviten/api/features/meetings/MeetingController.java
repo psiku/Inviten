@@ -25,6 +25,8 @@ public class MeetingController {
 package com.inviten.api.features.meetings;
 
 import com.inviten.api.features.users.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -53,7 +55,13 @@ public class MeetingController {
 
     @DeleteMapping("meetings/{meetingId}/users/{phoneNumber}")
     public void deleteMember(@PathVariable String meetingId, @PathVariable String phoneNumber){
+
         meetingRepository.deleteMember(meetingId, phoneNumber);
+    }
+
+    @DeleteMapping("meetings/{meetingId}/users")
+    public void leaveMeeting(@PathVariable String meetingId){
+        meetingRepository.leaveMeeting(meetingId);
     }
 }
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)

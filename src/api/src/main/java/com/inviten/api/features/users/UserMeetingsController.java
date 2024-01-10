@@ -34,15 +34,10 @@ public class UserMeetingsController {
 
     @GetMapping("users/meetings")
     public List<Meeting> getUsersMeetings() {
-        // Pobranie aktualnego obiektu uwierzytelnienia
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Pobranie numeru telefonu z obiektu uwierzytelnienia
-        // Zakładamy, że numer telefonu jest nazwą użytkownika (principal)
         String phoneNumber = (String) authentication.getPrincipal();
-        System.out.println(phoneNumber);
 
-        // Wywołanie metody repozytorium z numerem telefonu
         return userRepository.getUsersMeetings(phoneNumber);
     }
 

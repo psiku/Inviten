@@ -13,6 +13,7 @@ package com.inviten.api.features.meetings;
 
 
 import com.inviten.api.features.users.User;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public interface IMeetingRepository {
     public Meeting one(String id);
@@ -32,6 +33,11 @@ public interface IMeetingRepository {
 =======
 
     public void put(Meeting meeting);
+<<<<<<< HEAD
 >>>>>>> 16719cb (added put method)
+=======
+
+    public void leaveMeeting(String meetingId);
+>>>>>>> 6d750cd (add leaveMeeting function)
 }
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)

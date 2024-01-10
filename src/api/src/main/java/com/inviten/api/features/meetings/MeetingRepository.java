@@ -37,6 +37,9 @@ package com.inviten.api.features.meetings;
 
 import com.inviten.api.features.users.User;
 import com.inviten.api.features.users.UserMeetingsRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
@@ -173,7 +176,55 @@ public class MeetingRepository implements IMeetingRepository {
     public void put(Meeting meeting) {
         table.putItem(meeting);
     }
+<<<<<<< HEAD
 >>>>>>> 16719cb (added put method)
+=======
+
+    @Override
+    public void leaveMeeting(@PathVariable String meetingId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException();
+        }
+
+        User user = userRepository.show(phoneNumber);
+
+        List<String> userMeetings = user.getMeetingsIds();
+        int indexOfUserMeeting = -1;
+        for(int j = 0; j < userMeetings.size(); j++){
+            String userMeetingId = userMeetings.get(j);
+            if(userMeetingId.equals(meetingId)){
+                indexOfUserMeeting = j;
+                break;
+            }
+        }
+
+        if(indexOfUserMeeting != -1){
+            userMeetings.remove(indexOfUserMeeting);
+            user.setMeetingsIds(userMeetings);
+            usersTable.putItem(user);
+        }
+
+        List<Member> participants = meeting.getParticipants();
+        int indexOfMember = -1;
+        for (int i = 0; i < participants.size(); i++) {
+            Member member = participants.get(i);
+            if (phoneNumber.equals(member.getPhoneNumber())) {
+                indexOfMember = i;
+                break;
+            }
+        }
+        if (indexOfMember != -1){
+            participants.remove(indexOfMember);
+            meeting.setParticipants(participants);
+            table.putItem(meeting);
+        }
+    }
+>>>>>>> 6d750cd (add leaveMeeting function)
 }
 <<<<<<< HEAD
 
