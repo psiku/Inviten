@@ -7,12 +7,15 @@ import java.util.List;
 public interface IUserMeetingsRepository {
 
 
-    public UserMeetings show(String id);
-    public void create(UserMeetings user);
+    public User show(String id);
+    public void create(User user);
 
     public void addMeeting(String userId, String meetingId);
 
     public void delete(String UserPhoneNumber);
 
     public List<Meeting> getUsersMeetings(String userPhoneNumber);
+
+    public User findUserByID(String id);
+
 }

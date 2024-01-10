@@ -7,9 +7,9 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 import java.util.List;
 
 @DynamoDbBean
-public class UserMeetings {
+public class User {
 
-    private String phoneNumber;
+    private String phoneNumber; // tutaj zahaszowany ma być
 
     private List<String> MeetingsIds;
 

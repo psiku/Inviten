@@ -32,7 +32,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 @DynamoDbBean
 public class Member {
 
-    private String phoneNumber;
+    private String phoneNumber; // też ma być zahaszowany
     private String role;
 
     public String getPhoneNumber() {

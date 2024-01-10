@@ -15,12 +15,12 @@ public class UserMeetingsController {
     }
 
     @GetMapping("users/{phoneNumber}")
-    public UserMeetings show(@PathVariable String phoneNumber) {
+    public User show(@PathVariable String phoneNumber) {
         return userRepository.show(phoneNumber);
     }
 
     @PostMapping("users")
-    void create(@RequestBody UserMeetings user) {
+    void create(@RequestBody User user) {
         userRepository.create(user);
     }
 

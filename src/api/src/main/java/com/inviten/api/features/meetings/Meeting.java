@@ -70,6 +70,7 @@ package com.inviten.api.features.meetings;
 
 
 import com.inviten.api.features.meetings.placeProposal.Place;
+import com.inviten.api.features.users.User;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 

@@ -6,27 +6,24 @@ import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-import software.amazon.awssdk.services.dynamodb.model.Condition;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class UserMeetingsRepository implements IUserMeetingsRepository {
 
-    private final DynamoDbTable<UserMeetings> users;
+    private final DynamoDbTable<User> users;
     private final DynamoDbTable<Meeting> meetings;
 
     public UserMeetingsRepository(DynamoDbEnhancedClient client) {
         meetings = client.table("meetings", TableSchema.fromBean(Meeting.class));
-        users = client.table("users", TableSchema.fromBean(UserMeetings.class));
+        users = client.table("users", TableSchema.fromBean(User.class));
     }
 
-    public UserMeetings show(String id) {
+    public User show(String id) {
         var key = Key.builder()
                 .partitionValue(id)
                 .build();
@@ -35,13 +32,13 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
     }
 
     @Override
-    public void create(UserMeetings user) {
+    public void create(User user) {
         users.putItem(user);
     }
 
     @Override
     public void addMeeting(String userId, String meetingId) {
-        UserMeetings user = show(userId);
+        User user = show(userId);
         List<String> meetings = user.getMeetingsIds();
         if (meetings == null) {
             meetings = List.of(meetingId);
@@ -62,7 +59,7 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
     @Override
     public List<Meeting> getUsersMeetings(String userPhoneNumber) {
         //chcemy jego listę więc zakładamy że istnieje
-        UserMeetings user = show(userPhoneNumber);
+        User user = show(userPhoneNumber);
 
         //pobieramy jego listę id spotkań
         List<String> userMeetingsIds = user.getMeetingsIds();
@@ -92,7 +89,23 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
         }
         return userMeetings;
     }
+
+    @Override
+    public User findUserByID(String id){
+    // sprawdź czy istnieje w bazie
+    User user = show(id);
+
+    // jak nie to stwórz i zwróć
+        if (user == null) {
+            user = new User();
+            user.setPhoneNumber(id);
+            create(user);
+        }
+    // jak tak to zwróć
+        return user;
+    }
 }
+
 
 
 
