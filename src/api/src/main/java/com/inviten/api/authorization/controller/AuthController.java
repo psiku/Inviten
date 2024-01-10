@@ -28,8 +28,10 @@ import javax.xml.bind.DatatypeConverter;
 @RequestMapping("/auth")
 public class AuthController {
 
+
     private final AuthenticationManager authenticationManager;
     private final IUserMeetingsRepository userRepository;
+
 
     private JwtUtil jwtUtil;
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, IUserMeetingsRepository userRepository) {
@@ -60,6 +62,7 @@ public class AuthController {
             String newPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
             // sprawdź czy istnieje jak nie to stwórz jak nie pobierz z bazy ! ! !
             User user = userRepository.findUserByID(newPhoneNumber);
+            userRepository.create(user);
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(newPhoneNumber,token);
 

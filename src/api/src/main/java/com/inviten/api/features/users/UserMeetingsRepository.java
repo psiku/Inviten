@@ -93,13 +93,13 @@ public class UserMeetingsRepository implements IUserMeetingsRepository {
     @Override
     public User findUserByID(String id){
     // sprawdź czy istnieje w bazie
-    User user = show(id);
+        User user = show(id);
 
     // jak nie to stwórz i zwróć
         if (user == null) {
             user = new User();
             user.setPhoneNumber(id);
-            create(user);
+//            create(user);
         }
     // jak tak to zwróć
         return user;
