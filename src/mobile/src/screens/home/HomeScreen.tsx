@@ -4,8 +4,9 @@ import {SafeAreaView, Text, View} from 'react-native';
 import {MeetingList} from '../../components/meeting/MeetingList';
 import {Navigation, NavigationFunctionComponent} from 'react-native-navigation';
 import {MeetingAddButton} from '../../components/meeting/MeetingAddButton';
+import {useAuthStore} from '../../auth/authStore';
 
-const generateRandomString = length =>
+const generateRandomString = (length: number) =>
     [...Array(length)]
         .map(() =>
             String.fromCharCode(

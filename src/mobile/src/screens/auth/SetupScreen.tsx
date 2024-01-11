@@ -2,17 +2,24 @@ import React, {useState} from 'react';
 import {Navigation} from 'react-native-navigation';
 import {Button, Colors, Text, TextField, View} from 'react-native-ui-lib';
 import {homeRoot} from '../../navigation/roots';
+import {useAuthStore} from '../../auth/authStore';
+import {getAuthToken} from '../../lib/auth/authService';
 
 export const SetupScreen = () => {
+    const {setToken} = useAuthStore();
+
     const phoneRegex = /^\d{3}\s?\d{3}\s?\d{3}$/;
     const [phoneNumber, setPhoneNumber] = useState<string>('');
 
     const isPhoneNumberValid = (value: string) => phoneRegex.test(value);
 
-    const authenticate = () => {
-        // TODO: Some auth logic
+    const goHomeScreen = () => Navigation.setRoot(homeRoot);
 
-        Navigation.setRoot(homeRoot);
+    const authenticate = async () => {
+        const token = await getAuthToken(phoneNumber);
+        setToken(token);
+
+        goHomeScreen();
     };
 
     return (

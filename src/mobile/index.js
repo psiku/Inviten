@@ -2,7 +2,6 @@
  * @format
  */
 import {Navigation} from 'react-native-navigation';
-import App from './App';
 import {SetupScreen} from './src/screens/auth/SetupScreen';
 import {setupRoot} from './src/navigation/roots';
 import {HomeScreen} from './src/screens/home/HomeScreen';
