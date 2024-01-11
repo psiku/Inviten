@@ -15,14 +15,14 @@ export const MeetingOwnerBadge = ({meeting}: {meeting: Meeting}) => {
 
     if (user === ownerPhoneNumber) {
         return (
-            <Text className="mr-2 text-gray-300 text-xs font-semibold italic">
+            <Text className="mr-2 text-orange-300 text-xs font-semibold">
                 owned
             </Text>
         );
     }
 
     return (
-        <Text className="mr-2 text-gray-300 text-xs font-semibold italic">
+        <Text className="mr-2 text-gray-300 text-xs font-semibold">
             invited
         </Text>
     );

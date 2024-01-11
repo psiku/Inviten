@@ -10,6 +10,9 @@ import {DateAddButton} from '../../components/meeting/date/DateAddButton';
 import {PlaceAddButton} from '../../components/meeting/place/PlaceAddButton';
 import {DateScheduledCard} from '../../components/meeting/date/DateScheduledCard';
 import {PlacePickedCard} from '../../components/meeting/place/PlacePickedCard';
+import {MeetingOwnerBadge} from '../../components/meeting/MeetingOwnerBadge';
+import {MeetingStateBadge} from '../../components/meeting/MeetingStateBadge';
+import {MeetingCreatedAtBadge} from '../../components/meeting/MeetingCreatedAtBadge';
 
 type MeetingScreenProps = {
     meeting: Meeting;
@@ -84,13 +87,12 @@ export const MeetingScreen: NavigationFunctionComponent<
     return (
         <SafeAreaView>
             <View className="p-5 h-screen">
-                <View className="mb-1 flex-row space-x-2">
-                    <Text className="text-gray-300 text-xs font-semibold italic">
-                        owned
-                    </Text>
-                    <Text className="text-violet-400 text-xs font-semibold italic">
-                        in planing
-                    </Text>
+                <View className="mb-1 flex-row justify-between">
+                    <View className="flex-row">
+                        <MeetingOwnerBadge meeting={meeting} />
+                        <MeetingStateBadge meeting={meeting} />
+                    </View>
+                    <MeetingCreatedAtBadge meeting={meeting} />
                 </View>
 
                 <Text className="text-gray-100 text-3xl font-semibold">

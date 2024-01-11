@@ -7,6 +7,7 @@ import {useAuthStore} from '../../lib/auth/authStore';
 import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 import {MeetingStateBadge} from './MeetingStateBadge';
 import {MeetingOwnerBadge} from './MeetingOwnerBadge';
+import {MeetingCreatedAtBadge} from './MeetingCreatedAtBadge';
 
 export const MeetingList = ({
     onSelect = _ => {},
@@ -23,9 +24,12 @@ export const MeetingList = ({
     const renderItem = ({item}: {item: Meeting}) => (
         <TouchableOpacity onPress={() => onSelect(item)}>
             <View className="flex mb-1 p-4 bg-neutral-800/90 rounded-l-lg rounded-tr-lg">
-                <View className="flex-row">
-                    <MeetingOwnerBadge meeting={item} />
-                    <MeetingStateBadge meeting={item} />
+                <View className="mb-1 flex-row justify-between">
+                    <View className="flex-row">
+                        <MeetingOwnerBadge meeting={item} />
+                        <MeetingStateBadge meeting={item} />
+                    </View>
+                    <MeetingCreatedAtBadge meeting={item} />
                 </View>
                 <Text className="text-gray-200 text-lg  font-semibold">
                     {item.name}
@@ -46,8 +50,14 @@ export const MeetingList = ({
         </TouchableOpacity>
     );
 
-    const getOrderedMeetings = (m: Meeting[]) =>
-        m.sort((a, b) => (a.name !== null ? a.name.localeCompare(b.name) : -1));
+    const getOrderedMeetings = (m: Meeting[]): Meeting[] =>
+        m.sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+                return -a.createdAt.localeCompare(b.createdAt);
+            } else {
+                return -1;
+            }
+        });
 
     return (
         <FlatList

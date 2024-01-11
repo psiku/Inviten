@@ -4,22 +4,16 @@ import {Meeting} from '../../types/Meeting';
 
 const PlaningStateBadge = () => {
     return (
-        <Text className="text-xs font-bold text-violet-400 italic">
-            in planing
-        </Text>
+        <Text className="text-xs font-bold text-violet-400">in planing</Text>
     );
 };
 
 const ScheduledStateBadge = () => {
-    return (
-        <Text className="text-xs font-bold text-green-400 italic">
-            scheduled
-        </Text>
-    );
+    return <Text className="text-xs font-bold text-green-400">scheduled</Text>;
 };
 
 const PastStateBadge = () => {
-    return <Text className="text-xs font-bold text-gray-400 italic">past</Text>;
+    return <Text className="text-xs font-bold text-gray-400">past</Text>;
 };
 
 export const MeetingStateBadge = ({meeting}: {meeting: Meeting}) => {
