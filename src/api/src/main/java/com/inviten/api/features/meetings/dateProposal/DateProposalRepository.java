@@ -147,7 +147,11 @@ public class DateProposalRepository implements IDateProposalRepository {
     }
 
     @Override
-    public void removeVote(String meetingId, String proposalId, String phoneNumber) {
+    public void removeVote(String meetingId, String proposalId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsDateChosen()){
             return;
