@@ -78,11 +78,12 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 import java.time.LocalDate;
 import java.util.List;
 import java.time.LocalTime;
+import java.util.UUID;
 
 
 @DynamoDbBean
 public class Meeting {
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private String name;
     private LocalDate date;
