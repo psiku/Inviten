@@ -65,6 +65,11 @@ public class DateProposalRepository implements IDateProposalRepository {
 
     @Override
     public void addDateProposal(String meetingId, DateProposal dateProposal) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+        dateProposal.setProposedBy(phoneNumber);
+
         try {
             Key key = Key.builder()
                     .partitionValue(meetingId)
