@@ -102,7 +102,7 @@ public class MeetingRepository implements IMeetingRepository {
         // aktualizowanie usera
         User user = userRepository.show(phoneNumber);
         List<String> meetingsIds = user.getMeetingsIds();
-        meetingsIds = List.of(meeting.getId());
+        meetingsIds.add(meeting.getId());
         user.setMeetingsIds(meetingsIds);
 
         // dodanie do tabeli users
