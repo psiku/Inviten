@@ -35,6 +35,7 @@ public class MeetingRepository implements IMeetingRepository {
 =======
 package com.inviten.api.features.meetings;
 
+import com.inviten.api.authorization.converter.TimeConverter;
 import com.inviten.api.authorization.hashing.PhoneHash;
 import com.inviten.api.features.users.User;
 import com.inviten.api.features.users.UserMeetingsRepository;
@@ -103,6 +104,11 @@ public class MeetingRepository implements IMeetingRepository {
             participants.add(member);
         }
         meeting.setParticipants(participants);
+
+        // dodanie daty utworzenia
+        long timestamp = System.currentTimeMillis();
+        String createdAt = new TimeConverter().convertTimestampToIso8601(timestamp);
+        meeting.setCreatedAt(createdAt);
 
         // aktualizowanie usera
         User user = userRepository.show(phoneNumber);
