@@ -2,16 +2,15 @@ import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dialog from 'react-native-dialog';
-import {Meeting} from '../../types/Meeting';
-import uuid from 'react-native-uuid';
+import {useAuthStore} from '../../lib/auth/authStore';
+import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 
-export const MeetingAddButton = ({
-    onAdd = _ => {},
-}: {
-    onAdd: (meeting: Meeting) => void;
-}) => {
-    const [meetingName, setMeetingName] = useState(null);
-    const [showMeetingDialog, setShowMeetingDialog] = useState(false);
+export const MeetingAddButton = () => {
+    const {token} = useAuthStore();
+    const {addMeeting} = useMeetingsStore();
+
+    const [meetingName, setMeetingName] = useState<string>('');
+    const [showMeetingDialog, setShowMeetingDialog] = useState<boolean>(false);
 
     const handleMeetingAdd = () => {
         setShowMeetingDialog(true);
@@ -21,17 +20,15 @@ export const MeetingAddButton = ({
         setShowMeetingDialog(false);
     };
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         const meeting = {
-            id: uuid.v4(),
             name: meetingName,
             createdAt: new Date(),
-            participants: [],
         };
 
-        onAdd(meeting);
+        await addMeeting(token, meeting);
 
-        setMeetingName(null);
+        setMeetingName('');
         setShowMeetingDialog(false);
     };
 

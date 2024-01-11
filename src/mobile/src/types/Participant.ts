@@ -1,4 +1,5 @@
 export type Participant = {
-    id: string;
+    phoneNumber: string;
     name: string;
+    role: string;
 };
