@@ -2,16 +2,15 @@ import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Dialog from 'react-native-dialog';
-import {PlaceProposal} from '../../../types/Place/PlaceProposal';
-import uuid from 'react-native-uuid';
+import {useAuthStore} from '../../../lib/auth/authStore';
+import {useMeetingsStore} from '../../../lib/meetings/meetingsStore';
 
-export const PlaceAddButton = ({
-    onAdd = _ => {},
-}: {
-    onAdd: (place: PlaceProposal) => void;
-}) => {
-    const [placeName, setPlaceName] = useState(null);
-    const [showPlaceDialog, setShowPlaceDialog] = useState(false);
+export const PlaceAddButton = ({meetingId}: {meetingId: string}) => {
+    const {token} = useAuthStore();
+    const {addPlaceProposal} = useMeetingsStore();
+
+    const [placeName, setPlaceName] = useState<string>('');
+    const [showPlaceDialog, setShowPlaceDialog] = useState<boolean>(false);
 
     const handlePlaceAdd = () => {
         setShowPlaceDialog(true);
@@ -21,17 +20,14 @@ export const PlaceAddButton = ({
         setShowPlaceDialog(false);
     };
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         const placeProposal = {
-            id: uuid.v4(),
             name: placeName,
-            voted: false,
-            voters: [],
         };
 
-        onAdd(placeProposal);
+        await addPlaceProposal(token, meetingId, placeProposal);
 
-        setPlaceName(null);
+        setPlaceName('');
         setShowPlaceDialog(false);
     };
 
@@ -42,14 +38,8 @@ export const PlaceAddButton = ({
             </TouchableOpacity>
             <Dialog.Container visible={showPlaceDialog}>
                 <Dialog.Title>Add new place</Dialog.Title>
-                <Dialog.Description>
-                    Please provide the name of the place
-                </Dialog.Description>
-                <Dialog.Input
-                    value={placeName}
-                    onChangeText={setPlaceName}
-                    placeholder="Place name"
-                />
+                <Dialog.Description>Please provide the name of the place</Dialog.Description>
+                <Dialog.Input value={placeName} onChangeText={setPlaceName} placeholder="Place name" />
                 <Dialog.Button label="Cancel" onPress={handleCancel} />
                 <Dialog.Button label="Add" onPress={handleAdd} />
             </Dialog.Container>

@@ -1,4 +1,5 @@
 import {DateProposal} from '../../types/Date/DateProposal';
+import {PlaceProposal} from '../../types/Place/PlaceProposal';
 import {apiClient} from '../api/apiClient';
 
 export const getUserMeetings = async (token: string) => {
@@ -29,11 +30,7 @@ export const addUserMeeting = async (token: string, meeting: any) => {
     });
 };
 
-export const addUserDateProposal = async (
-    token: string,
-    meetingId: string,
-    proposal: DateProposal,
-) => {
+export const addUserDateProposal = async (token: string, meetingId: string, proposal: DateProposal) => {
     await apiClient.put(
         `/meetings/${meetingId}/dates`,
         {...proposal},
@@ -45,11 +42,7 @@ export const addUserDateProposal = async (
     );
 };
 
-export const voteOnUserDateProposal = async (
-    token: string,
-    meetingId: string,
-    proposalId: string,
-) => {
+export const voteOnUserDateProposal = async (token: string, meetingId: string, proposalId: string) => {
     await apiClient.post(
         `/meetings/${meetingId}/dates/${proposalId}/vote`,
         {},
@@ -61,11 +54,7 @@ export const voteOnUserDateProposal = async (
     );
 };
 
-export const unvoteOnUserDateProposal = async (
-    token: string,
-    meetingId: string,
-    proposalId: string,
-) => {
+export const unvoteOnUserDateProposal = async (token: string, meetingId: string, proposalId: string) => {
     await apiClient.post(
         `/meetings/${meetingId}/dates/${proposalId}/unvote`,
         {},
@@ -77,13 +66,57 @@ export const unvoteOnUserDateProposal = async (
     );
 };
 
-export const scheduleUserDateProposal = async (
-    token: string,
-    meetingId: string,
-    proposalId: string,
-) => {
+export const scheduleUserDateProposal = async (token: string, meetingId: string, proposalId: string) => {
     await apiClient.post(
         `/meetings/${meetingId}/dates/${proposalId}/schedule`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const addUserPlaceProposal = async (token: string, meetingId: string, proposal: PlaceProposal) => {
+    await apiClient.put(
+        `/meetings/${meetingId}/places`,
+        {...proposal},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const voteOnUserPlaceProposal = async (token: string, meetingId: string, proposalId: string) => {
+    await apiClient.post(
+        `/meetings/${meetingId}/places/${proposalId}/vote`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const unvoteOnUserPlaceProposal = async (token: string, meetingId: string, proposalId: string) => {
+    await apiClient.post(
+        `/meetings/${meetingId}/places/${proposalId}/unvote`,
+        {},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};
+
+export const pickUserPlaceProposal = async (token: string, meetingId: string, proposalId: string) => {
+    await apiClient.post(
+        `/meetings/${meetingId}/places/${proposalId}/pick`,
         {},
         {
             headers: {

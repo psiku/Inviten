@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {PlaceProposal} from '../../../types/Place/PlaceProposal';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {PlaceProposal} from '../../../types/Place/PlaceProposal';
 
 export const PlacePickedCard = ({place}: {place: PlaceProposal}) => {
     return (
@@ -10,9 +10,7 @@ export const PlacePickedCard = ({place}: {place: PlaceProposal}) => {
                 <View className="flex-row space-x-4">
                     <Icon name="enviromento" size={25} color="black" />
 
-                    <Text className="text-xl font-bold text-black">
-                        {place.name}
-                    </Text>
+                    <Text className="text-xl font-bold text-black">{place?.name}</Text>
                 </View>
                 <View>
                     <Text className="font-bold black">Picked</Text>

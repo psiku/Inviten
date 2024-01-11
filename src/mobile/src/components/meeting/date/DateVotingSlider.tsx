@@ -13,11 +13,9 @@ import {isMeetingAdmin} from '../../../utils/meetingHelpers';
 
 export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
     const {user, token} = useAuthStore();
-    const {voteOnDateProposal, unvoteOnDateProposal, scheduleDateProposal} =
-        useMeetingsStore();
+    const {voteOnDateProposal, unvoteOnDateProposal, scheduleDateProposal} = useMeetingsStore();
 
-    const hasVoted = (proposal: DateProposal) =>
-        proposal.votes?.some(voter => voter === user);
+    const hasVoted = (proposal: DateProposal) => proposal.votes?.some(voter => voter === user);
 
     const getParticipants = (proposal: DateProposal): Participant[] =>
         proposal.votes?.map(voter => ({
@@ -36,8 +34,7 @@ export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
     };
 
     const renderItem = ({item}: {item: DateProposal}) => {
-        const handleSchedule = async () =>
-            await scheduleDateProposal(token, meeting?.id, item?.id);
+        const handleSchedule = async () => await scheduleDateProposal(token, meeting?.id, item?.id);
 
         return (
             <View>
@@ -59,48 +56,33 @@ export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
                         <View className="flex items-center">
                             <View className="my-4">
                                 <Icon
-                                    name={
-                                        hasVoted(item)
-                                            ? 'checkcircle'
-                                            : 'checkcircleo'
-                                    }
+                                    name={hasVoted(item) ? 'checkcircle' : 'checkcircleo'}
                                     size={30}
-                                    color={
-                                        hasVoted(item) ? '#a78bfa' : '#737373'
-                                    }
+                                    color={hasVoted(item) ? '#a78bfa' : '#737373'}
                                 />
                             </View>
                             <View className="h-6">
                                 {item.votes?.length > 0 ? (
-                                    <ParticipantAvatarList
-                                        participants={getParticipants(item)}
-                                    />
+                                    <ParticipantAvatarList participants={getParticipants(item)} />
                                 ) : (
-                                    <Text className="text-gray-400 font-semibold">
-                                        No votes
-                                    </Text>
+                                    <Text className="text-gray-400 font-semibold">No votes</Text>
                                 )}
                             </View>
                         </View>
                     </View>
                 </TouchableOpacity>
-                {isMeetingAdmin(meeting, user) ? (
-                    <ScheduleButton onPress={handleSchedule} />
-                ) : null}
+                {isMeetingAdmin(meeting, user) ? <ScheduleButton onPress={handleSchedule} /> : null}
             </View>
         );
     };
 
     // sort proposals by voters count
-    const getOrderedProposals = (p: DateProposal[]) =>
-        p?.sort((a, b) => b.votes?.length - a.votes?.length);
+    const getOrderedProposals = (p: DateProposal[]) => p?.sort((a, b) => b.votes?.length - a.votes?.length);
 
     if (meeting?.dateProposals?.length === 0) {
         return (
             <View className="h-16 flex items-center">
-                <Text className="text-gray-400  italic">
-                    No available dates
-                </Text>
+                <Text className="text-gray-400  italic">No available dates</Text>
             </View>
         );
     }

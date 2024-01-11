@@ -4,7 +4,6 @@ import {DateVotingSlider} from '../../components/meeting/date/DateVotingSlider';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import {Meeting} from '../../types/Meeting';
 import {PlaceVotingList} from '../../components/meeting/place/PlaceVotingList';
-import {PlaceProposal} from '../../types/Place/PlaceProposal';
 import {DateAddButton} from '../../components/meeting/date/DateAddButton';
 import {PlaceAddButton} from '../../components/meeting/place/PlaceAddButton';
 import {DateScheduledCard} from '../../components/meeting/date/DateScheduledCard';
@@ -24,7 +23,7 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
     const {user} = useAuthStore();
     const meetings = useMeetingsStore(state => state.meetings);
 
-    const getCurrentMeeting = () => meetings.find(m => m.id === props.meeting.id);
+    const getCurrentMeeting = () => meetings.find(m => m.id === props.meeting?.id);
 
     const [meeting, setMeeting] = useState<Meeting>(getCurrentMeeting());
 
@@ -33,17 +32,6 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
         setMeeting(currentMeeting);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [meetings, props.meeting?.id]);
-
-    const [placeProposals, setPlaceProposals] = useState<PlaceProposal[]>([]);
-    const [pickedPlace, setPickedPlace] = useState<PlaceProposal | null>(null);
-
-    const handlePlaceAdd = (proposal: PlaceProposal) => {
-        setPlaceProposals([...placeProposals, proposal]);
-    };
-
-    const handlePlaceVote = (proposal: PlaceProposal) => {
-        setPlaceProposals(placeProposals.map(p => (p.id === proposal.id ? proposal : p)));
-    };
 
     return (
         <SafeAreaView>
@@ -60,11 +48,11 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
                 <View className="mt-5">
                     <View className="mb-4 flex-row justify-between items-center">
                         <Text className="text-gray-400/90 font-bold">Meeting date</Text>
-                        {meeting.date || !isMeetingAdmin(meeting, user) ? null : (
+                        {meeting?.isDateChosen || !isMeetingAdmin(meeting, user) ? null : (
                             <DateAddButton meetingId={meeting?.id} />
                         )}
                     </View>
-                    {meeting?.date ? (
+                    {meeting?.isDateChosen ? (
                         <DateScheduledCard date={meeting?.date} />
                     ) : (
                         <DateVotingSlider meeting={meeting} />
@@ -72,12 +60,14 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
 
                     <View className="my-4 mb-4 flex-row justify-between items-center">
                         <Text className="mt-4 text-gray-400/90 font-bold">Meeting place</Text>
-                        {pickedPlace ? null : <PlaceAddButton onAdd={handlePlaceAdd} />}
+                        {meeting?.isPlaceChosen || !isMeetingAdmin(meeting, user) ? null : (
+                            <PlaceAddButton meetingId={meeting?.id} />
+                        )}
                     </View>
-                    {pickedPlace ? (
-                        <PlacePickedCard place={pickedPlace} />
+                    {meeting?.isPlaceChosen ? (
+                        <PlacePickedCard place={meeting?.place} />
                     ) : (
-                        <PlaceVotingList proposals={placeProposals} onVote={handlePlaceVote} onPick={setPickedPlace} />
+                        <PlaceVotingList meeting={meeting} />
                     )}
                 </View>
             </View>
