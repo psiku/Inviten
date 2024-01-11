@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Meeting} from '../../types/Meeting';
 import {SafeAreaView, Text, View} from 'react-native';
 import {MeetingList} from '../../components/meeting/MeetingList';

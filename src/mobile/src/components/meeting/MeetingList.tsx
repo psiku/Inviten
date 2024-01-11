@@ -19,7 +19,7 @@ export const MeetingList = ({
 
     useEffect(() => {
         fetchMeetings(token);
-    });
+    }, []);
 
     const renderItem = ({item}: {item: Meeting}) => (
         <TouchableOpacity onPress={() => onSelect(item)}>
