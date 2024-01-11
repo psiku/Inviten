@@ -23,7 +23,11 @@ public interface IMeetingRepository {
     public Meeting createAndSave(Meeting meeting);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void addMember(String meetingId, Member member);
+=======
+    public void invite(String meetingId, String phoneNumber);
+>>>>>>> 6ff8976 (add invite method to add friend to meeting)
 
     public void deleteMember(String meetingId, String phoneNumber);
 <<<<<<< HEAD

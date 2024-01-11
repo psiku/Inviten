@@ -48,9 +48,9 @@ public class MeetingController {
         return meetingRepository.createAndSave(meeting);
     }
 
-    @PutMapping("meetings/{meetingId}/users")
-    public void addMember(@PathVariable String meetingId, @RequestBody Member member){
-        meetingRepository.addMember(meetingId, member);
+    @PutMapping("meetings/{meetingId}/users/{phoneNumber}")
+    public void invite(@PathVariable String meetingId, @PathVariable String phoneNumber){
+        meetingRepository.invite(meetingId, phoneNumber);
     }
 
     @DeleteMapping("meetings/{meetingId}/users/{phoneNumber}")

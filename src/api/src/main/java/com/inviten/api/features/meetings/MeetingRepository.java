@@ -35,6 +35,7 @@ public class MeetingRepository implements IMeetingRepository {
 =======
 package com.inviten.api.features.meetings;
 
+import com.inviten.api.authorization.hashing.PhoneHash;
 import com.inviten.api.features.users.User;
 import com.inviten.api.features.users.UserMeetingsRepository;
 import org.springframework.security.core.Authentication;
@@ -46,6 +47,7 @@ import software.amazon.awssdk.enhanced.dynamodb.Key;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import com.inviten.api.exception.NotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -82,44 +84,49 @@ public class MeetingRepository implements IMeetingRepository {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Override
     public void addMember(String meetingId, Member member){
+=======
+>>>>>>> 6ff8976 (add invite method to add friend to meeting)
 
+    @Override
+    public void invite(String meetingId, String phoneNumber){
         Meeting meeting = one(meetingId);
         if (meeting == null) {
             throw new NotFoundException();
         }
 
-        String UserPhoneNumber = member.getPhoneNumber();
+        PhoneHash phoneHash = new PhoneHash();
 
-        User user = userRepository.show(UserPhoneNumber);
-        if (user == null) {
-            user = new User();
-            user.setPhoneNumber(UserPhoneNumber);
-            userRepository.create(user);
-        }
+        try {
+            String hashedPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
 
-        // lista spotkań MeeeetingUsera
-        List<String> userMeetings = user.getMeetingsIds();
-        if(userMeetings == null){
-            userMeetings = List.of(meetingId);
-        }
-        else{
-            userMeetings.add(meetingId);
-        }
+            User user = userRepository.show(hashedPhoneNumber);
+            if (user == null) {
+                user = new User();
+                user.setPhoneNumber(hashedPhoneNumber);
+                userRepository.create(user);
+            }
 
-        List<Member> participants = meeting.getParticipants();
-        if (participants == null) {
-            participants = List.of(member);
+            List<String> userMeetings = user.getMeetingsIds() != null ? new ArrayList<>(user.getMeetingsIds()) : new ArrayList<>();
+            if (!userMeetings.contains(meetingId)) {
+                userMeetings.add(meetingId);
+                user.setMeetingsIds(userMeetings);
+                usersTable.putItem(user);
+            }
+
+            List<Member> participants = meeting.getParticipants() != null ? new ArrayList<>(meeting.getParticipants()) : new ArrayList<>();
+            Member member = new Member();
+            member.setPhoneNumber(hashedPhoneNumber);
+            if (!participants.contains(member)) {
+                participants.add(member);
+                meeting.setParticipants(participants);
+                table.putItem(meeting);
+            }
+        } catch (Exception e) {
+
         }
-        else {
-            participants.add(member);
-        }
-        // ustawiamy listę spotkań
-        user.setMeetingsIds(userMeetings);
-        meeting.setParticipants(participants);
-        usersTable.putItem(user);
-        table.putItem(meeting);
     }
 
 
