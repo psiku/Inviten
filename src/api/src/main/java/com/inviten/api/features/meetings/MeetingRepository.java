@@ -334,7 +334,49 @@ public class MeetingRepository implements IMeetingRepository {
 
     @Override
     public void degradateMember (String meetingId, String userId){
+        //pobieranie tokenu użytkownika który próbuje użyć tej metody w celu pobrania jego ID (numeru zahaszowanego)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String phoneNumber = (String) authentication.getPrincipal();
 
+
+
+        //w danym spotkaniu
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException();
+        }
+
+        String memberRole = "";
+
+        //sprawdzenie rangi użytkownika który próbuje użyć tej metody
+        List<Member> participants = meeting.getParticipants();
+        for (int i = 0; i < participants.size(); i++) {
+            Member member = participants.get(i);
+            if (phoneNumber.equals(member.getPhoneNumber())) {
+                memberRole = member.getRole();
+                break;
+            }
+        }
+
+        if(memberRole.equals("owner") || memberRole.equals("admin")){
+
+            // szukamy użytkownika o danym id, którego będziemy chcieli awansować
+            int indexOfMember = -1;
+            for (int i = 0; i < participants.size(); i++) {
+                Member member = participants.get(i);
+                if (userId.equals(member.getPhoneNumber())) {
+                    indexOfMember = i;
+                    break;
+                }
+            }
+            // nadajemu mu nową rangę i uzupełniamy tablę
+            Member memberToDegrade = participants.get(indexOfMember);
+            memberToDegrade.setRole("guest");
+            participants.set(indexOfMember, memberToDegrade);
+            meeting.setParticipants(participants);
+            table.putItem(meeting);
+
+        }
     }
 >>>>>>> 3d3ba5d (Added promote function)
 }
