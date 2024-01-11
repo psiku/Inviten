@@ -14,6 +14,7 @@ import {MeetingCreatedAtBadge} from '../../components/meeting/MeetingCreatedAtBa
 import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 import {useAuthStore} from '../../lib/auth/authStore';
 import {isMeetingAdmin} from '../../utils/meetingHelpers';
+import {ParticipantsList} from '../../components/meeting/participant/ParticipantsList';
 
 type MeetingScreenProps = {
     meeting: Meeting;
@@ -43,8 +44,10 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
                     </View>
                     <MeetingCreatedAtBadge meeting={meeting} />
                 </View>
-
                 <Text className="text-gray-100 text-3xl font-semibold">{meeting?.name}</Text>
+                <View className="mt-5">
+                    <ParticipantsList meeting={meeting} />
+                </View>
                 <View className="mt-5">
                     <View className="mb-4 flex-row justify-between items-center">
                         <Text className="text-gray-400/90 font-bold">Meeting date</Text>

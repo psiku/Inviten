@@ -19,7 +19,7 @@ export const PlaceVotingList = ({meeting}: {meeting: Meeting}) => {
         proposal.votes?.map(voter => ({
             phoneNumber: voter,
             role: '',
-            name: '',
+            nick: '',
         }));
 
     const handleVote = async (proposal: PlaceProposal) => {

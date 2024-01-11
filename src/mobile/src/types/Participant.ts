@@ -1,5 +1,5 @@
 export type Participant = {
     phoneNumber: string;
-    name: string;
+    nick: string;
     role: string;
 };

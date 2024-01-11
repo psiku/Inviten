@@ -4,7 +4,7 @@ import {AvatarList} from '../../common/avatar/AvatarList';
 import {Text} from 'react-native';
 
 const getShortName = (participant: Participant) =>
-    participant.name != null && participant.name.length > 0 ? participant.name[0] : participant.phoneNumber[0];
+    participant.nick != null && participant.nick.length > 0 ? participant.nick[0] : participant.phoneNumber[0];
 
 export const ParticipantAvatarList = ({participants}: {participants: Participant[]}) => {
     if (participants?.length > 0) {
