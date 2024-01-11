@@ -194,7 +194,6 @@ public class DateProposalRepository implements IDateProposalRepository {
         for(DateProposal proposal: dateProposals){
             if(proposal.getId().equals(proposalId)){
                 meeting.setDate(proposal.getProposedDate());
-                meeting.setTime(proposal.getProposedTime());
                 break;
             }
         }
