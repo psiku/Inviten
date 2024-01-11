@@ -27,11 +27,11 @@ public class DateProposal {
         this.id = id;
     }
 
-    public LocalDate getProposedDate() {
+    public String getProposedDate() {
         return proposedDate;
     }
 
-    public void setProposedDate(LocalDate proposedDate) {
+    public void setProposedDate(String proposedDate) {
         this.proposedDate = proposedDate;
     }
 
