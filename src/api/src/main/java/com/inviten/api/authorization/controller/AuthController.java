@@ -66,12 +66,11 @@ public class AuthController {
             userRepository.create(user);
             String token = jwtUtil.createToken(user);
 
+            // parser tokenu
             Claims claims = Jwts.parser()
-                    .setSigningKey("mysecretkey")  // Replace with your actual secret key
+                    .setSigningKey("mysecretkey")
                     .parseClaimsJws(token)
                     .getBody();
-
-            // Extract expiration date
 
             long expirationTimestamp = claims.getExpiration().getTime();
             String expirationTimestampAsString = String.valueOf(expirationTimestamp);
