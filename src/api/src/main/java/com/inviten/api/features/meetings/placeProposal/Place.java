@@ -16,7 +16,8 @@ public class Place {
     private String description;
 
     private String note;
-    // private User proposedBy; + getter i setter
+
+    private String proposedBy;
 
     private List<String> votes = new ArrayList<>();
 
@@ -48,4 +49,12 @@ public class Place {
     public List<String> getVotes() { return votes; }
 
     public void setVotes(List<String> votes) { this.votes = votes; }
+
+    public String getProposedBy() {
+        return proposedBy;
+    }
+
+    public void setProposedBy(String proposedBy) {
+        this.proposedBy = proposedBy;
+    }
 }

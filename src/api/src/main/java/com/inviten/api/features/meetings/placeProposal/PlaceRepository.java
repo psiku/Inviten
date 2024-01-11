@@ -22,6 +22,11 @@ public class PlaceRepository implements IPlaceRepository{
 
     @Override
     public void addPlaceProposal(Place place, String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+        place.setProposedBy(phoneNumber);
+
         Meeting meeting = meetingRepository.one(id);
         if(meeting.getIsPlaceChosen()){
             return;
