@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 
 
 @Controller
@@ -64,8 +65,20 @@ public class AuthController {
             User user = userRepository.findUserByID(newPhoneNumber);
             userRepository.create(user);
             String token = jwtUtil.createToken(user);
-            LoginRes loginRes = new LoginRes(newPhoneNumber,token);
 
+            Claims claims = Jwts.parser()
+                    .setSigningKey("mysecretkey")  // Replace with your actual secret key
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            // Extract expiration date
+
+            long expirationTimestamp = claims.getExpiration().getTime();
+            String expirationTimestampAsString = String.valueOf(expirationTimestamp);
+
+            LoginRes loginRes = new LoginRes(newPhoneNumber,token, expirationTimestampAsString);
+
+            loginRes.setTokenValidity(expirationTimestampAsString);
 
             return ResponseEntity.ok(loginRes);
 
