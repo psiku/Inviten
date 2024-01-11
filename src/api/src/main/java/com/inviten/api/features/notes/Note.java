@@ -2,17 +2,15 @@ package com.inviten.api.features.notes;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
+import java.util.UUID;
+
 @DynamoDbBean
 public class Note {
 
-    private static long lastId = 0;
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private String text;
     private String proposedBy;
 
-    public Note() {
-        this.id = String.valueOf(++lastId);
-    }
 
     public String getId() {
         return id;

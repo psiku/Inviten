@@ -4,10 +4,11 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @DynamoDbBean
 public class Place {
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 

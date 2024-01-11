@@ -6,10 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @DynamoDbBean
 public class DateProposal {
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     private String proposedDate;
 
