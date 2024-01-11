@@ -20,14 +20,14 @@ public class PlaceController {
         placeRepository.removePlaceProposal(place, meetingId);
     }
 
-    @PostMapping("/meetings/{meetingId}/places/{placeId}/vote/{phoneNumber}")
-    void addVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
-        placeRepository.addVote(meetingId, placeId, phoneNumber);
+    @PostMapping("/meetings/{meetingId}/places/{placeId}/vote")
+    void addVote(@PathVariable String meetingId, @PathVariable String placeId){
+        placeRepository.addVote(meetingId, placeId);
     }
 
-    @PostMapping("/meetings/{meetingId}/places/{placeId}/unvote/{phoneNumber}")
-    void removeVote(@PathVariable String meetingId, @PathVariable String placeId, @PathVariable String phoneNumber){
-        placeRepository.removeVote(meetingId, placeId, phoneNumber);
+    @PostMapping("/meetings/{meetingId}/places/{placeId}/unvote")
+    void removeVote(@PathVariable String meetingId, @PathVariable String placeId){
+        placeRepository.removeVote(meetingId, placeId);
     }
 
     @PostMapping("meetings/{meetingId}/places/{proposalId}/pick")

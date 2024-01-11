@@ -1,6 +1,8 @@
 package com.inviten.api.features.meetings.placeProposal;
 
 import com.inviten.api.features.meetings.IMeetingRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import com.inviten.api.features.meetings.Meeting;
@@ -64,7 +66,11 @@ public class PlaceRepository implements IPlaceRepository{
     }
 
     @Override
-    public void addVote(String meetingId, String placeId, String phoneNumber) {
+    public void addVote(String meetingId, String placeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsPlaceChosen()){
             return;
@@ -96,7 +102,11 @@ public class PlaceRepository implements IPlaceRepository{
     }
 
     @Override
-    public void removeVote(String meetingId, String placeId, String phoneNumber) {
+    public void removeVote(String meetingId, String placeId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsPlaceChosen()){
             return;
