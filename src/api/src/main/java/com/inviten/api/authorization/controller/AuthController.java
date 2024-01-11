@@ -2,6 +2,7 @@ package com.inviten.api.authorization.controller;
 
 
 import com.inviten.api.authorization.auth.JwtUtil;
+import com.inviten.api.authorization.converter.TimeConverter;
 import com.inviten.api.authorization.hashing.PhoneHash;
 import com.inviten.api.authorization.model.request.LoginReq;
 import com.inviten.api.authorization.model.response.ErrorRes;
@@ -54,6 +55,7 @@ public class AuthController {
     public ResponseEntity login(@RequestBody LoginReq loginReq)  {
 
        PhoneHash phoneHash = new PhoneHash();
+        TimeConverter timeConverter = new TimeConverter();
 
         try {
             // pobierz LogReq
@@ -73,7 +75,8 @@ public class AuthController {
                     .getBody();
 
             long expirationTimestamp = claims.getExpiration().getTime();
-            String expirationTimestampAsString = String.valueOf(expirationTimestamp);
+
+            String expirationTimestampAsString = timeConverter.convertTimestampToIso8601(expirationTimestamp);
 
             LoginRes loginRes = new LoginRes(newPhoneNumber,token, expirationTimestampAsString);
 
