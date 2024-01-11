@@ -9,11 +9,7 @@ import {MeetingStateBadge} from './MeetingStateBadge';
 import {MeetingOwnerBadge} from './MeetingOwnerBadge';
 import {MeetingCreatedAtBadge} from './MeetingCreatedAtBadge';
 
-export const MeetingList = ({
-    onSelect = _ => {},
-}: {
-    onSelect: (meeting: Meeting) => void;
-}) => {
+export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) => void}) => {
     const {token} = useAuthStore();
     const {meetings, fetchMeetings} = useMeetingsStore();
 
@@ -31,15 +27,11 @@ export const MeetingList = ({
                     </View>
                     <MeetingCreatedAtBadge meeting={item} />
                 </View>
-                <Text className="text-gray-200 text-lg  font-semibold">
-                    {item.name}
-                </Text>
+                <Text className="text-gray-200 text-lg  font-semibold">{item.name}</Text>
                 <View className="mt-2">
                     <View className="flex-row justify-between items-center">
                         <View className="h-6 flex justify-center">
-                            <ParticipantAvatarList
-                                participants={item.participants}
-                            />
+                            <ParticipantAvatarList participants={item.participants} />
                         </View>
                         <View>
                             <Icon name="arrowright" size={25} color="#737373" />
@@ -59,11 +51,5 @@ export const MeetingList = ({
             }
         });
 
-    return (
-        <FlatList
-            data={getOrderedMeetings(meetings)}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-        />
-    );
+    return <FlatList data={getOrderedMeetings(meetings)} renderItem={renderItem} keyExtractor={item => item.id} />;
 };

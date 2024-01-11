@@ -4,6 +4,10 @@ import {Meeting} from '../../types/Meeting';
 import {formatDistanceToNow} from 'date-fns';
 
 export const MeetingCreatedAtBadge = ({meeting}: {meeting: Meeting}) => {
+    if (meeting?.createdAt == null) {
+        return null;
+    }
+
     const date = new Date(meeting.createdAt);
     const timeAgo = formatDistanceToNow(date, {addSuffix: true});
 

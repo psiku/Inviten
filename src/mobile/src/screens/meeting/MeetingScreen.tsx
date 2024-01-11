@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, View} from 'react-native';
 import {DateVotingSlider} from '../../components/meeting/date/DateVotingSlider';
 import {NavigationFunctionComponent} from 'react-native-navigation';
 import {Meeting} from '../../types/Meeting';
-import {DateProposal} from '../../types/Date/DateProposal';
 import {PlaceVotingList} from '../../components/meeting/place/PlaceVotingList';
 import {PlaceProposal} from '../../types/Place/PlaceProposal';
 import {DateAddButton} from '../../components/meeting/date/DateAddButton';
@@ -13,75 +12,37 @@ import {PlacePickedCard} from '../../components/meeting/place/PlacePickedCard';
 import {MeetingOwnerBadge} from '../../components/meeting/MeetingOwnerBadge';
 import {MeetingStateBadge} from '../../components/meeting/MeetingStateBadge';
 import {MeetingCreatedAtBadge} from '../../components/meeting/MeetingCreatedAtBadge';
+import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
+import {useAuthStore} from '../../lib/auth/authStore';
+import {isMeetingAdmin} from '../../utils/meetingHelpers';
 
 type MeetingScreenProps = {
     meeting: Meeting;
 };
 
-const dateProposalsData = [1, 2, 3, 4, 5].map(id => ({
-    id,
-    date: new Date(),
-    voted: false,
-    voters: [
-        {
-            id: '3',
-            name: 'Kasia',
-        },
-        {
-            id: '4',
-            name: 'Kasia',
-        },
-    ],
-}));
+export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = props => {
+    const {user} = useAuthStore();
+    const meetings = useMeetingsStore(state => state.meetings);
 
-const placeProposalsData = [1, 2, 3, 4, 5, 6, 7].map(id => ({
-    id,
-    name: 'Zyrafa',
-    address: 'ul. Karmelicka 1',
-    voted: false,
-    voters: [
-        {
-            id: '3',
-            name: 'Kasia',
-        },
-        {
-            id: '4',
-            name: 'Kasia',
-        },
-    ],
-}));
+    const getCurrentMeeting = () => meetings.find(m => m.id === props.meeting.id);
 
-export const MeetingScreen: NavigationFunctionComponent<
-    MeetingScreenProps
-> = props => {
-    const meeting = props.meeting;
+    const [meeting, setMeeting] = useState<Meeting>(getCurrentMeeting());
 
-    const [dateProposals, setDateProposals] = useState<DateProposal[]>([]);
-    const [scheduledDate, setScheduledDate] = useState<DateProposal | null>(
-        null,
-    );
+    useEffect(() => {
+        const currentMeeting = getCurrentMeeting();
+        setMeeting(currentMeeting);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [meetings, props.meeting?.id]);
 
     const [placeProposals, setPlaceProposals] = useState<PlaceProposal[]>([]);
     const [pickedPlace, setPickedPlace] = useState<PlaceProposal | null>(null);
-
-    const handleDateAdd = (proposal: DateProposal) => {
-        setDateProposals([...dateProposals, proposal]);
-    };
-
-    const handleDateVote = (proposal: DateProposal) => {
-        setDateProposals(
-            dateProposals.map(p => (p.id === proposal.id ? proposal : p)),
-        );
-    };
 
     const handlePlaceAdd = (proposal: PlaceProposal) => {
         setPlaceProposals([...placeProposals, proposal]);
     };
 
     const handlePlaceVote = (proposal: PlaceProposal) => {
-        setPlaceProposals(
-            placeProposals.map(p => (p.id === proposal.id ? proposal : p)),
-        );
+        setPlaceProposals(placeProposals.map(p => (p.id === proposal.id ? proposal : p)));
     };
 
     return (
@@ -95,44 +56,28 @@ export const MeetingScreen: NavigationFunctionComponent<
                     <MeetingCreatedAtBadge meeting={meeting} />
                 </View>
 
-                <Text className="text-gray-100 text-3xl font-semibold">
-                    {meeting?.name}
-                </Text>
+                <Text className="text-gray-100 text-3xl font-semibold">{meeting?.name}</Text>
                 <View className="mt-5">
                     <View className="mb-4 flex-row justify-between items-center">
-                        <Text className="text-gray-400/90 font-bold">
-                            Meeting date
-                        </Text>
-                        {scheduledDate ? null : (
-                            <DateAddButton onAdd={handleDateAdd} />
+                        <Text className="text-gray-400/90 font-bold">Meeting date</Text>
+                        {meeting.date || !isMeetingAdmin(meeting, user) ? null : (
+                            <DateAddButton meetingId={meeting?.id} />
                         )}
                     </View>
-                    {scheduledDate ? (
-                        <DateScheduledCard date={scheduledDate} />
+                    {meeting?.date ? (
+                        <DateScheduledCard date={meeting?.date} />
                     ) : (
-                        <DateVotingSlider
-                            proposals={dateProposals}
-                            onVote={handleDateVote}
-                            onSchedule={setScheduledDate}
-                        />
+                        <DateVotingSlider meeting={meeting} />
                     )}
 
                     <View className="my-4 mb-4 flex-row justify-between items-center">
-                        <Text className="mt-4 text-gray-400/90 font-bold">
-                            Meeting place
-                        </Text>
-                        {pickedPlace ? null : (
-                            <PlaceAddButton onAdd={handlePlaceAdd} />
-                        )}
+                        <Text className="mt-4 text-gray-400/90 font-bold">Meeting place</Text>
+                        {pickedPlace ? null : <PlaceAddButton onAdd={handlePlaceAdd} />}
                     </View>
                     {pickedPlace ? (
                         <PlacePickedCard place={pickedPlace} />
                     ) : (
-                        <PlaceVotingList
-                            proposals={placeProposals}
-                            onVote={handlePlaceVote}
-                            onPick={setPickedPlace}
-                        />
+                        <PlaceVotingList proposals={placeProposals} onVote={handlePlaceVote} onPick={setPickedPlace} />
                     )}
                 </View>
             </View>

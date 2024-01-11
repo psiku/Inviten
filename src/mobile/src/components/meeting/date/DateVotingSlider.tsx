@@ -5,62 +5,75 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import {ParticipantAvatarList} from '../participant/ParticipantAvatarList';
 import {ScheduleButton} from './ScheduleButton';
 import {getDayName, getHour} from '../../../utils/dateHelpers';
+import {useAuthStore} from '../../../lib/auth/authStore';
+import {Participant} from '../../../types/Participant';
+import {useMeetingsStore} from '../../../lib/meetings/meetingsStore';
+import {Meeting} from '../../../types/Meeting';
+import {isMeetingAdmin} from '../../../utils/meetingHelpers';
 
-export const DateVotingSlider = ({
-    proposals,
-    onVote = _ => {},
-    onSchedule = _ => {},
-}: {
-    proposals: DateProposal[];
-    onVote: (proposal: DateProposal) => void;
-    onSchedule: (proposal: DateProposal) => void;
-}) => {
-    const handleVote = (proposal: DateProposal) => {
-        const me = {id: '1', name: 'Me'};
+export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
+    const {user, token} = useAuthStore();
+    const {voteOnDateProposal, unvoteOnDateProposal, scheduleDateProposal} =
+        useMeetingsStore();
 
-        const vote = !proposal.voted;
-        const voters = vote
-            ? [me, ...proposal.voters]
-            : proposal.voters.filter(voter => voter.id !== me.id);
+    const hasVoted = (proposal: DateProposal) =>
+        proposal.votes?.some(voter => voter === user);
 
-        onVote({...proposal, voted: !proposal.voted, voters: voters});
+    const getParticipants = (proposal: DateProposal): Participant[] =>
+        proposal.votes?.map(voter => ({
+            phoneNumber: voter,
+            role: '',
+            name: '',
+        }));
+
+    const handleVote = async (proposal: DateProposal) => {
+        if (hasVoted(proposal)) {
+            await unvoteOnDateProposal(token, meeting?.id, proposal?.id);
+            return;
+        }
+
+        await voteOnDateProposal(token, meeting?.id, proposal?.id);
     };
 
     const renderItem = ({item}: {item: DateProposal}) => {
-        const handleSchedule = () => onSchedule(item);
+        const handleSchedule = async () =>
+            await scheduleDateProposal(token, meeting?.id, item?.id);
+
         return (
             <View>
                 <TouchableOpacity onPress={() => handleVote(item)}>
                     <View
                         className={
-                            item.voted
+                            hasVoted(item)
                                 ? 'flex mr-1 p-4 bg-violet-800/90 rounded-l-lg rounded-tr-lg'
                                 : 'flex mr-1 p-4 bg-neutral-800/90 rounded-l-lg rounded-tr-lg'
                         }>
                         <View className="flex items-center">
                             <Text className="text-gray-200 font-semibold">
-                                {getDayName(item.date)}
+                                {getDayName(new Date(item.proposedDate))}
                             </Text>
                             <Text className="mt-2 text-xl font-bold text-gray-200">
-                                {getHour(item.date)}
+                                {getHour(new Date(item.proposedDate))}
                             </Text>
                         </View>
                         <View className="flex items-center">
                             <View className="my-4">
                                 <Icon
                                     name={
-                                        item.voted
+                                        hasVoted(item)
                                             ? 'checkcircle'
                                             : 'checkcircleo'
                                     }
                                     size={30}
-                                    color={item.voted ? '#a78bfa' : '#737373'}
+                                    color={
+                                        hasVoted(item) ? '#a78bfa' : '#737373'
+                                    }
                                 />
                             </View>
                             <View className="h-6">
-                                {item.voters.length > 0 ? (
+                                {item.votes?.length > 0 ? (
                                     <ParticipantAvatarList
-                                        participants={item.voters}
+                                        participants={getParticipants(item)}
                                     />
                                 ) : (
                                     <Text className="text-gray-400 font-semibold">
@@ -71,16 +84,18 @@ export const DateVotingSlider = ({
                         </View>
                     </View>
                 </TouchableOpacity>
-                <ScheduleButton onPress={handleSchedule} />
+                {isMeetingAdmin(meeting, user) ? (
+                    <ScheduleButton onPress={handleSchedule} />
+                ) : null}
             </View>
         );
     };
 
     // sort proposals by voters count
     const getOrderedProposals = (p: DateProposal[]) =>
-        p.sort((a, b) => b.voters.length - a.voters.length);
+        p?.sort((a, b) => b.votes?.length - a.votes?.length);
 
-    if (proposals?.length === 0) {
+    if (meeting?.dateProposals?.length === 0) {
         return (
             <View className="h-16 flex items-center">
                 <Text className="text-gray-400  italic">
@@ -94,7 +109,7 @@ export const DateVotingSlider = ({
         <View>
             <FlatList
                 horizontal
-                data={getOrderedProposals(proposals)}
+                data={getOrderedProposals(meeting?.dateProposals)}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />

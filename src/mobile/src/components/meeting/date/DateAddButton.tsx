@@ -4,26 +4,28 @@ import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {DateProposal} from '../../../types/Date/DateProposal';
 import uuid from 'react-native-uuid';
+import {useMeetingsStore} from '../../../lib/meetings/meetingsStore';
+import {useAuthStore} from '../../../lib/auth/authStore';
 
-export const DateAddButton = ({
-    onAdd = _ => {},
-}: {
-    onAdd: (date: DateProposal) => void;
-}) => {
+export const DateAddButton = ({meetingId}: {meetingId: string}) => {
+    const {token, user} = useAuthStore();
+    const {addDateProposal} = useMeetingsStore();
     const [showDatePicker, setShowDatePicker] = React.useState(false);
 
     const handlePick = () => {
         setShowDatePicker(true);
     };
 
-    const handleAdd = (value: Date) => {
-        const dateProposal = {
-            id: uuid.v4(),
-            date: value,
-            voted: false,
-            voters: [],
+    const handleAdd = async (value: Date) => {
+        const dateProposal: DateProposal = {
+            id: uuid.v4().toString(),
+            proposedDate: value,
+            proposedBy: user,
+            votes: [],
         };
-        onAdd(dateProposal);
+
+        await addDateProposal(token, meetingId, dateProposal);
+
         setShowDatePicker(false);
     };
 

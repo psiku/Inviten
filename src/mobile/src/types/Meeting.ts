@@ -1,3 +1,4 @@
+import {DateProposal} from './Date/DateProposal';
 import {Participant} from './Participant';
 
 export type Meeting = {
@@ -8,4 +9,5 @@ export type Meeting = {
     date: string;
     isPlaceChosen: boolean;
     isDateChosen: boolean;
+    dateProposals: DateProposal[];
 };

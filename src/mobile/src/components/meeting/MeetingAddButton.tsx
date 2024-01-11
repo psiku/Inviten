@@ -23,7 +23,6 @@ export const MeetingAddButton = () => {
     const handleAdd = async () => {
         const meeting = {
             name: meetingName,
-            createdAt: new Date(),
         };
 
         await addMeeting(token, meeting);

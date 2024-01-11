@@ -17,13 +17,13 @@ const PastStateBadge = () => {
 };
 
 export const MeetingStateBadge = ({meeting}: {meeting: Meeting}) => {
-    const meetingDateTime = new Date(meeting.date);
+    const meetingDateTime = new Date(meeting?.date);
 
-    if (meeting.date !== null && meetingDateTime < new Date()) {
+    if (meeting?.date != null && meetingDateTime < new Date()) {
         return <PastStateBadge />;
     }
 
-    if (meeting.isDateChosen && meeting.isPlaceChosen) {
+    if (meeting?.isDateChosen && meeting?.isPlaceChosen) {
         return <ScheduledStateBadge />;
     }
 

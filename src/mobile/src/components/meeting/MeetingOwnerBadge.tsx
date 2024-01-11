@@ -6,12 +6,9 @@ import {Meeting} from '../../types/Meeting';
 export const MeetingOwnerBadge = ({meeting}: {meeting: Meeting}) => {
     const {user} = useAuthStore();
 
-    const ownerPhoneNumber = meeting.participants.find(
+    const ownerPhoneNumber = meeting?.participants?.find(
         p => p.role === 'owner',
     )?.phoneNumber;
-
-    console.log('ownerPhoneNumber', ownerPhoneNumber);
-    console.log('user', user);
 
     if (user === ownerPhoneNumber) {
         return (

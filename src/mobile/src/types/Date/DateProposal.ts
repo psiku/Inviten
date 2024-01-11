@@ -1,8 +1,6 @@
-import {Participant} from '../Participant';
-
 export type DateProposal = {
     id: string;
-    date: Date;
-    voters: Participant[];
-    voted: boolean;
+    proposedDate: Date;
+    proposedBy: string;
+    votes: string[];
 };
