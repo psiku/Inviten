@@ -6,7 +6,6 @@ export type Meeting = {
     participants: Participant[];
     createdAt: string;
     date: string;
-    time: string;
     isPlaceChosen: boolean;
     isDateChosen: boolean;
 };

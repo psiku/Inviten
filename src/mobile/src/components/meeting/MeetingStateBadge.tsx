@@ -17,10 +17,9 @@ const PastStateBadge = () => {
 };
 
 export const MeetingStateBadge = ({meeting}: {meeting: Meeting}) => {
-    const now = new Date().toISOString();
-    const meetingDateTime = new Date(`${meeting.date}T${meeting.time}`);
+    const meetingDateTime = new Date(meeting.date);
 
-    if (meetingDateTime < new Date(now)) {
+    if (meeting.date !== null && meetingDateTime < new Date()) {
         return <PastStateBadge />;
     }
 
