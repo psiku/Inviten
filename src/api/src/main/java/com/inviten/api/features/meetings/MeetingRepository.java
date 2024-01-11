@@ -75,10 +75,40 @@ public class MeetingRepository implements IMeetingRepository {
 
     @Override
     public void create(Meeting meeting) {
+
         table.putItem(meeting);
     }
     @Override
     public Meeting createAndSave(Meeting meeting){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String phoneNumber = (String) authentication.getPrincipal();
+
+        // stworzenie mebera ownera
+        Member member = new Member();
+        member.setPhoneNumber(phoneNumber);
+        Role role = new Role();
+        member.setRole(role.getOwnerRole());
+
+        // ustawienie nowych participantów
+        List<Member> participants = meeting.getParticipants();
+        if(participants == null){
+            participants = List.of(member);
+        }else {
+            participants.add(member);
+        }
+        meeting.setParticipants(participants);
+
+        // aktualizowanie usera
+        User user = userRepository.show(phoneNumber);
+        List<String> meetingsIds = user.getMeetingsIds();
+        meetingsIds = List.of(meeting.getId());
+        user.setMeetingsIds(meetingsIds);
+
+        // dodanie do tabeli users
+        usersTable.putItem(user);
+
+        // dodanie do tabeli meetings
         create(meeting);
         return meeting;
     }
