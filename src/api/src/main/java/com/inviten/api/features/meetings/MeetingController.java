@@ -63,5 +63,15 @@ public class MeetingController {
     public void leaveMeeting(@PathVariable String meetingId){
         meetingRepository.leaveMeeting(meetingId);
     }
+
+    @PostMapping("/meetings/{meetingId}/users/{userId}/role/promote")
+    public void promoteMember(@PathVariable String meetingId, @PathVariable String userId){
+        meetingRepository.promoteMember(meetingId, userId);
+    }
+
+    @PostMapping("/meetings/{meetingId}/users/{userId}/role/degradation")
+    public void degradateMember (@PathVariable  String meetingId, @PathVariable String userId){
+        meetingRepository.degradateMember(meetingId, userId);
+    }
 }
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)

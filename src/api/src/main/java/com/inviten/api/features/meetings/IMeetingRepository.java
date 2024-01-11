@@ -42,6 +42,14 @@ public interface IMeetingRepository {
 =======
 
     public void leaveMeeting(String meetingId);
+<<<<<<< HEAD
 >>>>>>> 6d750cd (add leaveMeeting function)
+=======
+
+    public void promoteMember(String meetingId, String userId);
+
+    public void degradateMember (String meetingId, String userId);
+
+>>>>>>> 3d3ba5d (Added promote function)
 }
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)

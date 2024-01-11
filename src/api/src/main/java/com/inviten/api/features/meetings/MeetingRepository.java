@@ -113,7 +113,11 @@ public class MeetingRepository implements IMeetingRepository {
         // aktualizowanie usera
         User user = userRepository.show(phoneNumber);
         List<String> meetingsIds = user.getMeetingsIds();
-        meetingsIds.add(meeting.getId());
+        if (meetingsIds == null) {
+            meetingsIds = List.of(meeting.getId());
+        }else {
+            meetingsIds.add(meeting.getId());
+        }
         user.setMeetingsIds(meetingsIds);
 
         // dodanie do tabeli users
@@ -275,7 +279,64 @@ public class MeetingRepository implements IMeetingRepository {
             table.putItem(meeting);
         }
     }
+<<<<<<< HEAD
 >>>>>>> 6d750cd (add leaveMeeting function)
+=======
+
+
+    @Override
+    public void promoteMember(String meetingId, String userId){
+
+        //pobieranie tokenu użytkownika który próbuje użyć tej metody w celu pobrania jego ID (numeru zahaszowanego)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String phoneNumber = (String) authentication.getPrincipal();
+
+
+
+        //w danym spotkaniu
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException();
+        }
+
+        String memberRole = "";
+
+        //sprawdzenie rangi użytkownika który próbuje użyć tej metody
+        List<Member> participants = meeting.getParticipants();
+        for (int i = 0; i < participants.size(); i++) {
+            Member member = participants.get(i);
+            if (phoneNumber.equals(member.getPhoneNumber())) {
+                memberRole = member.getRole();
+                break;
+            }
+        }
+
+        if(memberRole.equals("owner") || memberRole.equals("admin")){
+
+            // szukamy użytkownika o danym id, którego będziemy chcieli awansować
+            int indexOfMember = -1;
+            for (int i = 0; i < participants.size(); i++) {
+                Member member = participants.get(i);
+                if (userId.equals(member.getPhoneNumber())) {
+                    indexOfMember = i;
+                    break;
+                }
+            }
+            // nadajemu mu nową rangę i uzupełniamy tablę
+            Member memberToPromote = participants.get(indexOfMember);
+            memberToPromote.setRole("admin");
+            participants.set(indexOfMember, memberToPromote);
+            meeting.setParticipants(participants);
+            table.putItem(meeting);
+
+        }
+    }
+
+    @Override
+    public void degradateMember (String meetingId, String userId){
+
+    }
+>>>>>>> 3d3ba5d (Added promote function)
 }
 <<<<<<< HEAD
 
