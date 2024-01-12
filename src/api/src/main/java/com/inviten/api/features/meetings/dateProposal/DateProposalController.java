@@ -15,8 +15,8 @@ public class DateProposalController {
     }
 
     @PutMapping
-    public void addDateProposal(@PathVariable String meetingId, @RequestBody DateProposal dateProposal) {
-        dateProposalRepository.addDateProposal(meetingId, dateProposal);
+    public DateProposal addDateProposal(@PathVariable String meetingId, @RequestBody DateProposal dateProposal) {
+        return dateProposalRepository.addDateProposal(meetingId, dateProposal);
     }
 
     @GetMapping("/{proposalId}")
@@ -31,8 +31,8 @@ public class DateProposalController {
 
 
     @PostMapping("/{proposalId}/vote")
-    void addVote(@PathVariable String meetingId, @PathVariable String proposalId) {
-        dateProposalRepository.addVote(meetingId, proposalId);
+    public DateProposal addVote(@PathVariable String meetingId, @PathVariable String proposalId) {
+       return dateProposalRepository.addVote(meetingId, proposalId);
     }
 
     @PostMapping("/{proposalId}/unvote")
@@ -41,7 +41,7 @@ public class DateProposalController {
     }
 
     @PostMapping("/{proposalId}/schedule")
-    void confirmDate(@PathVariable String meetingId, @PathVariable String proposalId) {
-        dateProposalRepository.confirmDate(meetingId, proposalId);
+    public DateProposal confirmDate(@PathVariable String meetingId, @PathVariable String proposalId) {
+        return dateProposalRepository.confirmDate(meetingId, proposalId);
     }
 }

@@ -11,8 +11,8 @@ public class PlaceController {
     }
 
     @PutMapping("/meetings/{meetingId}/places")
-    void addPlaceProposal(@RequestBody Place place, @PathVariable String meetingId){
-        placeRepository.addPlaceProposal(place, meetingId);
+    public Place addPlaceProposal(@RequestBody Place place, @PathVariable String meetingId){
+        return placeRepository.addPlaceProposal(place, meetingId);
     }
 
     @DeleteMapping("/meetings/{meetingId}/places")
@@ -21,8 +21,8 @@ public class PlaceController {
     }
 
     @PostMapping("/meetings/{meetingId}/places/{placeId}/vote")
-    void addVote(@PathVariable String meetingId, @PathVariable String placeId){
-        placeRepository.addVote(meetingId, placeId);
+    public Place addVote(@PathVariable String meetingId, @PathVariable String placeId){
+        return placeRepository.addVote(meetingId, placeId);
     }
 
     @PostMapping("/meetings/{meetingId}/places/{placeId}/unvote")
@@ -31,7 +31,7 @@ public class PlaceController {
     }
 
     @PostMapping("meetings/{meetingId}/places/{proposalId}/pick")
-    void confirmPlace(@PathVariable String meetingId, @PathVariable String proposalId){
-        placeRepository.confirmPlace(meetingId, proposalId);
+    public Place confirmPlace(@PathVariable String meetingId, @PathVariable String proposalId){
+        return placeRepository.confirmPlace(meetingId, proposalId);
     }
 }
