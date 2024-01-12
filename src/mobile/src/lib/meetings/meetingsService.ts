@@ -285,7 +285,7 @@ export const inviteUser = async (token: string, meetingId: string, phoneNumber: 
     console.log(phoneNumber);
 
     const response = await apiClient.put(
-        `/meetings/${meetingId}/users/${phoneNumber}}`,
+        `/meetings/${meetingId}/users/${phoneNumber}`,
         {phoneNumber},
         {
             headers: {

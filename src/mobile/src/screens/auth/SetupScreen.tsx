@@ -17,7 +17,7 @@ export const SetupScreen = () => {
 
     const authenticate = async () => {
         const {token, phoneNumber} = await getAuth(userPhoneNumber);
-        console.log('token', token, 'phoneNumber', phoneNumber);
+        console.log('token', token, 'phoneNumber', userPhoneNumber);
 
         setAuth(token, phoneNumber);
 
