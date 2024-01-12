@@ -9,14 +9,14 @@ export const SetupScreen = () => {
     const {setAuth} = useAuthStore();
 
     const phoneRegex = /^\d{3}\s?\d{3}\s?\d{3}$/;
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
 
     const isPhoneNumberValid = (value: string) => phoneRegex.test(value);
 
     const goHomeScreen = () => Navigation.setRoot(homeRoot);
 
     const authenticate = async () => {
-        const {token, phoneNumber} = await getAuth('321'); // await getAuthToken(phoneNumber); TODO: uncomment
+        const {token, phoneNumber} = await getAuth(userPhoneNumber);
         console.log('token', token, 'phoneNumber', phoneNumber);
 
         setAuth(token, phoneNumber);
@@ -40,8 +40,8 @@ export const SetupScreen = () => {
                     maxLength={9}
                     keyboardType="numeric"
                     placeholder="123 777 888"
-                    value={phoneNumber}
-                    onChangeText={text => setPhoneNumber(text)}
+                    value={userPhoneNumber}
+                    onChangeText={text => setUserPhoneNumber(text)}
                 />
             </View>
             <View center>
@@ -51,7 +51,7 @@ export const SetupScreen = () => {
                     backgroundColor={Colors.grey80}
                     disabledBackgroundColor={Colors.grey20}
                     label="Continue"
-                    disabled={!isPhoneNumberValid(phoneNumber)}
+                    disabled={!isPhoneNumberValid(userPhoneNumber)}
                     onPress={authenticate}
                 />
             </View>
