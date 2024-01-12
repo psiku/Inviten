@@ -64,7 +64,7 @@ import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 import {Meeting} from '../../types/Meeting';
 
 export const MeetingAddButton = () => {
-    const {token} = useAuthStore();
+    const {token, user} = useAuthStore();
     const {addMeeting} = useMeetingsStore();
 
     const [meetingName, setMeetingName] = useState<string>('');

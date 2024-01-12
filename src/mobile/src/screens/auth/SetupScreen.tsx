@@ -16,7 +16,9 @@ export const SetupScreen = () => {
     const goHomeScreen = () => Navigation.setRoot(homeRoot);
 
     const authenticate = async () => {
-        const {token, phoneNumber} = await getAuth('012'); // await getAuthToken(phoneNumber); TODO: uncomment
+        const {token, phoneNumber} = await getAuth('123'); // await getAuthToken(phoneNumber); TODO: uncomment
+        console.log('token', token, 'phoneNumber', phoneNumber);
+
         setAuth(token, phoneNumber);
 
         goHomeScreen();

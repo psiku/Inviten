@@ -42,18 +42,9 @@ export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) 
         </TouchableOpacity>
     );
 
-    const getOrderedMeetings = (m: Meeting[]): Meeting[] =>
-        m.sort((a, b) => {
-            if (a.createdAt && b.createdAt) {
-                return -a.createdAt.localeCompare(b.createdAt);
-            } else {
-                return -1;
-            }
-        });
-
     return (
         <FlatList
-            data={getOrderedMeetings(meetings)}
+            data={meetings}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}

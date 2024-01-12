@@ -76,9 +76,6 @@ export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
         );
     };
 
-    // sort proposals by voters count
-    const getOrderedProposals = (p: DateProposal[]) => p?.sort((a, b) => b.votes?.length - a.votes?.length);
-
     if (meeting?.dateProposals == null || meeting?.dateProposals?.length === 0) {
         return (
             <View className="h-16 flex items-center">
@@ -89,12 +86,7 @@ export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
 
     return (
         <View>
-            <FlatList
-                horizontal
-                data={getOrderedProposals(meeting?.dateProposals)}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-            />
+            <FlatList horizontal data={meeting?.dateProposals} renderItem={renderItem} keyExtractor={item => item.id} />
         </View>
     );
 };

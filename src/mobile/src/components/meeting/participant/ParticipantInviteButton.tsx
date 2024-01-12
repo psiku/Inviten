@@ -21,7 +21,7 @@ export const ParticipantInviteButton = ({meetingId}: {meetingId: string}) => {
     };
 
     const handleInvite = async () => {
-        await inviteUser(token, meetingId, phoneNumber);
+        await inviteUser(token, meetingId, phoneNumber.toString());
 
         setPhoneNumber('');
         setShowInviteDialog(false);
