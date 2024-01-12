@@ -7,7 +7,7 @@ public interface IPlaceRepository {
 
     public Place addVote(String meetingId, String placeId);
 
-    public void removeVote(String meetingId, String placeId);
+    public Place removeVote(String meetingId, String placeId);
 
     public Place confirmPlace(String meetingId, String proposalId);
 }

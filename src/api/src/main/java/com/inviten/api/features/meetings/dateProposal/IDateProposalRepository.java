@@ -14,7 +14,7 @@ public interface IDateProposalRepository {
 
      DateProposal addVote(String meetingId, String proposalId);
 
-    void removeVote(String meetingId, String proposalId);
+    DateProposal removeVote(String meetingId, String proposalId);
 
     DateProposal confirmDate(String meetingId, String proposalId);
 }

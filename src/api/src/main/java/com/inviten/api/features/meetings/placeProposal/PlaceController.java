@@ -26,8 +26,8 @@ public class PlaceController {
     }
 
     @PostMapping("/meetings/{meetingId}/places/{placeId}/unvote")
-    void removeVote(@PathVariable String meetingId, @PathVariable String placeId){
-        placeRepository.removeVote(meetingId, placeId);
+    public Place removeVote(@PathVariable String meetingId, @PathVariable String placeId){
+        return placeRepository.removeVote(meetingId, placeId);
     }
 
     @PostMapping("meetings/{meetingId}/places/{proposalId}/pick")

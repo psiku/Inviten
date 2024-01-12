@@ -174,39 +174,42 @@ public class DateProposalRepository implements IDateProposalRepository {
     }
 
     @Override
-    public void removeVote(String meetingId, String proposalId) {
+    public DateProposal removeVote(String meetingId, String proposalId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String phoneNumber = (String) authentication.getPrincipal();
 
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsDateChosen()){
-            return;
+            return null;
         }
         List<DateProposal> dateProposals = meeting.getDateProposals();
         if(dateProposals == null) {
             List<DateProposal> newDateProposals = new ArrayList<>();
             dateProposals = newDateProposals;
         }
-        Iterator<DateProposal> iterator = dateProposals.iterator();
-        while (iterator.hasNext()) {
-            DateProposal currentPlace = iterator.next();
-            if (currentPlace.getId().equals(proposalId)) {
-                List<String> votes = currentPlace.getVotes();
-                if(votes == null)
-                {
-                    votes = List.of(phoneNumber);
-                }
-                else{
-                    votes.remove(phoneNumber);
-                }
-                currentPlace.setVotes(votes);
+        int index_of_proposal = -1;
+        // znajduje to spotkanie w liscie spotkan i zapisuje jego index
+        for(int i = 0; i < dateProposals.size(); i++){
+            if(dateProposals.get(i).getId().equals(proposalId)){
+                index_of_proposal = i;
                 break;
             }
         }
+        DateProposal currentProposal = dateProposals.get(index_of_proposal);
+        List<String> votes = currentProposal.getVotes();
+        if(votes == null)
+        {
+            votes = List.of(phoneNumber);
+        }
+        else{
+            votes.remove(phoneNumber);
+        }
+        currentProposal.setVotes(votes);
         sortDateProposals(meeting);
         meeting.setDateProposals(dateProposals);
         meetingTable.updateItem(meeting);
+        return currentProposal;
     }
 
     @Override

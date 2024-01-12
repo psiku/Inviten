@@ -108,7 +108,7 @@ public class PlaceRepository implements IPlaceRepository{
                 else{
                     votes.add(phoneNumber);
                 }
-                currentPlace.setVotes(votes);
+        currentPlace.setVotes(votes);
 
 //        Iterator<Place> iterator = places.iterator();
 //        while (iterator.hasNext()) {
@@ -133,39 +133,45 @@ public class PlaceRepository implements IPlaceRepository{
     }
 
     @Override
-    public void removeVote(String meetingId, String placeId) {
+    public Place removeVote(String meetingId, String placeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String phoneNumber = (String) authentication.getPrincipal();
 
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsPlaceChosen()){
-            return;
+            return null;
         }
         List<Place> places = meeting.getPlaceProposals();
         if(places == null) {
             List<Place> newPlaces = new ArrayList<>();
             places = newPlaces;
         }
-        Iterator<Place> iterator = places.iterator();
-        while (iterator.hasNext()) {
-            Place currentPlace = iterator.next();
-            if (currentPlace.getId().equals(placeId)) {
-                List<String> votes = currentPlace.getVotes();
-                if(votes == null)
-                {
-                    votes = List.of(phoneNumber);
-                }
-                else{
-                    votes.remove(phoneNumber);
-                }
-                currentPlace.setVotes(votes);
+        int indexOfPlace = -1;
+        for(int i = 0; i < places.size(); i++){
+            if(places.get(i).getId().equals(placeId)){
+                indexOfPlace = i;
                 break;
             }
         }
+
+        // pobierz ten place
+        Place currentPlace = places.get(indexOfPlace);
+
+        // pobierz listę głosów
+        List<String> votes = currentPlace.getVotes();
+        if(votes == null)
+        {
+            votes = List.of(phoneNumber);
+        }
+        else{
+            votes.remove(phoneNumber);
+        }
+        currentPlace.setVotes(votes);
         sortPlaces(meeting);
         meeting.setPlaceProposals(places);
         meetingRepository.put(meeting);
+        return currentPlace;
     }
 
     @Override
