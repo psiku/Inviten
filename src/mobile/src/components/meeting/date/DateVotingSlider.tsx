@@ -79,7 +79,7 @@ export const DateVotingSlider = ({meeting}: {meeting: Meeting}) => {
     // sort proposals by voters count
     const getOrderedProposals = (p: DateProposal[]) => p?.sort((a, b) => b.votes?.length - a.votes?.length);
 
-    if (meeting?.dateProposals?.length === 0) {
+    if (meeting?.dateProposals == null || meeting?.dateProposals?.length === 0) {
         return (
             <View className="h-16 flex items-center">
                 <Text className="text-gray-400  italic">No available dates</Text>

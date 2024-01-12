@@ -81,7 +81,7 @@ export const PlaceVotingList = ({meeting}: {meeting: Meeting}) => {
     // sort proposals by voters count
     const getOrderedProposals = (p: PlaceProposal[]) => p?.sort((a, b) => b.votes?.length - a.votes?.length);
 
-    if (meeting?.placeProposals?.length === 0) {
+    if (meeting.placeProposals == null || meeting?.placeProposals?.length === 0) {
         return (
             <View className="h-16  flex items-center">
                 <Text className="text-gray-400  italic">No available places</Text>
