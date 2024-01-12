@@ -472,7 +472,7 @@ public class MeetingRepository implements IMeetingRepository {
 
 
     @Override
-    public void invite(String meetingId, String phoneNumber){
+    public Member invite(String meetingId, String phoneNumber){
         Meeting meeting = one(meetingId);
         if (meeting == null) {
             throw new NotFoundException();
@@ -516,18 +516,11 @@ public class MeetingRepository implements IMeetingRepository {
             meeting.setParticipants(participants);
             usersTable.putItem(user);
             table.putItem(meeting); //kom  1
-
-
-
+            return member;
         } catch (Exception e) {
-
         }
+        return null;
     }
-
-    ///
-
-
-
 
 
     @Override

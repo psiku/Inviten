@@ -65,7 +65,7 @@ public interface IMeetingRepository {
 >>>>>>> c1f624b (implementation of addMember and deleteMember functions)
 =======
 
-    public void invite(String meetingId, String phoneNumber);
+    public Member invite(String meetingId, String phoneNumber);
 
     public void deleteMember(String meetingId, String phoneNumber);
 

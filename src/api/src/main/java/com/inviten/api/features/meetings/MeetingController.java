@@ -99,8 +99,8 @@ public class MeetingController {
     }
 
     @PutMapping("meetings/{meetingId}/users/{phoneNumber}")
-    public void invite(@PathVariable String meetingId, @PathVariable String phoneNumber){
-        meetingRepository.invite(meetingId, phoneNumber);
+    public Member invite(@PathVariable String meetingId, @PathVariable String phoneNumber){
+        return meetingRepository.invite(meetingId, phoneNumber);
     }
 
     @DeleteMapping("meetings/{meetingId}/users/{phoneNumber}")
