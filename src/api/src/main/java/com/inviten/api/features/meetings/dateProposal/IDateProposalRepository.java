@@ -8,13 +8,13 @@ public interface IDateProposalRepository {
 
     List<DateProposal> findByMeetingId(String meetingId);
 
-    void addDateProposal(String meetingId, DateProposal dateProposal);
+    DateProposal addDateProposal(String meetingId, DateProposal dateProposal);
 
     void removeDateProposal(String meetingId, String proposalId);
 
-    void addVote(String meetingId, String proposalId);
+     DateProposal addVote(String meetingId, String proposalId);
 
     void removeVote(String meetingId, String proposalId);
 
-    void confirmDate(String meetingId, String proposalId);
+    DateProposal confirmDate(String meetingId, String proposalId);
 }

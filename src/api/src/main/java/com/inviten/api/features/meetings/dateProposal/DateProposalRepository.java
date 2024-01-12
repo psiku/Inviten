@@ -64,7 +64,7 @@ public class DateProposalRepository implements IDateProposalRepository {
     }
 
     @Override
-    public void addDateProposal(String meetingId, DateProposal dateProposal) {
+    public DateProposal addDateProposal(String meetingId, DateProposal dateProposal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String phoneNumber = (String) authentication.getPrincipal();
@@ -88,6 +88,7 @@ public class DateProposalRepository implements IDateProposalRepository {
 
             e.printStackTrace();
         }
+        return dateProposal;
     }
 
     @Override
@@ -116,39 +117,59 @@ public class DateProposalRepository implements IDateProposalRepository {
 
 
     @Override
-    public void addVote(String meetingId, String proposalId) {
+    public DateProposal addVote(String meetingId, String proposalId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String phoneNumber = (String) authentication.getPrincipal();
 
         Meeting meeting = meetingRepository.one(meetingId);
         if(meeting.getIsDateChosen()){
-            return;
+            return null;
         }
         List<DateProposal> dateProposals = meeting.getDateProposals();
         if(dateProposals == null) {
             List<DateProposal> newDateProposals = new ArrayList<>();
             dateProposals = newDateProposals;
         }
-        Iterator<DateProposal> iterator = dateProposals.iterator();
-        while (iterator.hasNext()) {
-            DateProposal currentPlace = iterator.next();
-            if (currentPlace.getId().equals(proposalId)) {
-                List<String> votes = currentPlace.getVotes();
-                if(votes == null)
-                {
-                    votes = List.of(phoneNumber);
-                }
-                else{
-                    votes.add(phoneNumber);
-                }
-                currentPlace.setVotes(votes);
+        int index_of_proposal = -1;
+
+        // znajduje to spotkanie w liscie spotkan i zapisuje jego index
+        for(int i = 0; i < dateProposals.size(); i++){
+            if(dateProposals.get(i).getId().equals(proposalId)){
+                index_of_proposal = i;
                 break;
             }
         }
+        DateProposal currentProposal = dateProposals.get(index_of_proposal);
+        List<String> votes = currentProposal.getVotes();
+        if(votes == null)
+        {
+            votes = List.of(phoneNumber);
+        }
+        else{
+            votes.add(phoneNumber);
+        }
+
+//        Iterator<DateProposal> iterator = dateProposals.iterator();
+//        while (iterator.hasNext()) {
+//            DateProposal currentPlace = iterator.next();
+//            if (currentPlace.getId().equals(proposalId)) {
+//                List<String> votes = currentPlace.getVotes();
+//                if(votes == null)
+//                {
+//                    votes = List.of(phoneNumber);
+//                }
+//                else{
+//                    votes.add(phoneNumber);
+//                }
+//                currentPlace.setVotes(votes);
+//                break;
+//            }
+//        }
         sortDateProposals(meeting);
         meeting.setDateProposals(dateProposals);
         meetingTable.updateItem(meeting);
+        return currentProposal;
     }
 
     @Override
@@ -188,16 +209,23 @@ public class DateProposalRepository implements IDateProposalRepository {
     }
 
     @Override
-    public void confirmDate(String meetingId, String proposalId){
+    public DateProposal confirmDate(String meetingId, String proposalId){
         Meeting meeting = meetingRepository.one(meetingId);
         List<DateProposal> dateProposals = meeting.getDateProposals();
-        for(DateProposal proposal: dateProposals){
-            if(proposal.getId().equals(proposalId)){
-                meeting.setDate(proposal.getProposedDate());
+
+
+        // znajdź proposal o tym id
+        int index_of_proposal = -1;
+        for(int i = 0; i < dateProposals.size(); i++){
+            if(dateProposals.get(i).getId().equals(proposalId)){
+                index_of_proposal = i;
                 break;
             }
         }
+        DateProposal currentProposal = dateProposals.get(index_of_proposal);
+        meeting.setDate(currentProposal.getProposedDate());
         meeting.setIsDateChosen(true);
         meetingTable.updateItem(meeting);
+        return currentProposal;
     }
 }
