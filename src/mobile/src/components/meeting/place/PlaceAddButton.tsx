@@ -34,7 +34,7 @@ export const PlaceAddButton = ({meetingId}: {meetingId: string}) => {
     return (
         <>
             <TouchableOpacity onPress={handlePlaceAdd}>
-                <Icon name="pluscircle" size={25} color="#a78bfa" />
+                <Icon name="pluscircle" size={25} color="#7c3aed" />
             </TouchableOpacity>
             <Dialog.Container visible={showPlaceDialog}>
                 <Dialog.Title>Add new place</Dialog.Title>

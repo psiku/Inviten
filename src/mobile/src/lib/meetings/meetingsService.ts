@@ -125,3 +125,15 @@ export const pickUserPlaceProposal = async (token: string, meetingId: string, pr
         },
     );
 };
+
+export const inviteUser = async (token: string, meetingId: string, phoneNumber: string) => {
+    await apiClient.put(
+        `/meetings/${meetingId}/users/${phoneNumber}}`,
+        {phoneNumber},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+};

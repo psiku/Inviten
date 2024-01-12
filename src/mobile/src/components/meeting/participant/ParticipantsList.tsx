@@ -4,19 +4,34 @@ import {LargeAvatar} from '../../common/avatar/Avatar';
 import {FlatList, View} from 'react-native';
 import {Participant} from '../../../types/Participant';
 import {Text} from 'react-native-ui-lib';
+import {ParticipantInviteButton} from './ParticipantInviteButton';
+import {useAuthStore} from '../../../lib/auth/authStore';
+import {isMeetingAdmin} from '../../../utils/meetingHelpers';
+
+const getTruncatedNick = (nick: string) => {
+    if (nick.length > 8) {
+        return nick.substring(0, 8) + '...';
+    }
+
+    return nick;
+};
 
 export const ParticipantsList = ({meeting}: {meeting: Meeting}) => {
+    const {user} = useAuthStore();
+
     const renderItem = ({item}: {item: Participant}) => (
         <View className="flex items-center">
             <LargeAvatar shortName={item.phoneNumber[0]} badge={item.role} />
             <View className="mt-3 px-2">
-                <Text className="text-gray-100 text-xs font-semibold">{item.nick}</Text>
+                <Text className="text-gray-100 text-xs font-semibold">{getTruncatedNick(item.nick)}</Text>
             </View>
         </View>
     );
 
     return (
-        <View>
+        <View className="flex-row">
+            {isMeetingAdmin(meeting, user) && <ParticipantInviteButton meetingId={meeting?.id} />}
+
             <FlatList
                 horizontal
                 data={meeting?.participants}

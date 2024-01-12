@@ -4,6 +4,7 @@ import {
     addUserMeeting,
     addUserPlaceProposal,
     getUserMeetings,
+    inviteUser,
     pickUserPlaceProposal,
     scheduleUserDateProposal,
     unvoteOnUserDateProposal,
@@ -25,6 +26,7 @@ type MeetingsState = {
     voteOnPlaceProposal: (token: string, meetingId: string, proposalId: string) => Promise<void>;
     unvoteOnPlaceProposal: (token: string, meetingId: string, proposalId: string) => Promise<void>;
     pickPlaceProposal: (token: string, meetingId: string, proposalId: string) => Promise<void>;
+    inviteUser: (token: string, meetingId: string, phoneNumber: string) => Promise<void>;
 };
 
 export const useMeetingsStore = create<MeetingsState>(set => ({
@@ -75,6 +77,11 @@ export const useMeetingsStore = create<MeetingsState>(set => ({
     },
     pickPlaceProposal: async (token: string, meetingId: string, proposalId: string) => {
         await pickUserPlaceProposal(token, meetingId, proposalId);
+        const meetings = await getUserMeetings(token);
+        set({meetings: meetings});
+    },
+    inviteUser: async (token: string, meetingId: string, phoneNumber: string) => {
+        await inviteUser(token, meetingId, phoneNumber);
         const meetings = await getUserMeetings(token);
         set({meetings: meetings});
     },
