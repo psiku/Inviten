@@ -149,6 +149,7 @@ public class DateProposalRepository implements IDateProposalRepository {
         else{
             votes.add(phoneNumber);
         }
+        currentProposal.setVotes(votes);
 
 //        Iterator<DateProposal> iterator = dateProposals.iterator();
 //        while (iterator.hasNext()) {
