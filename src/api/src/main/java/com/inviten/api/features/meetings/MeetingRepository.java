@@ -482,12 +482,13 @@ public class MeetingRepository implements IMeetingRepository {
         NameGenerator nameGenerator = new NameGenerator();
 
         try {
-            String hashedPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
+//            String hashedPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
+            //System.out.println(hashedPhoneNumber);
 
-            User user = userRepository.show(hashedPhoneNumber);
+            User user = userRepository.show(phoneNumber);
             if (user == null) {
                 user = new User();
-                user.setPhoneNumber(hashedPhoneNumber);
+                user.setPhoneNumber(phoneNumber);
                 userRepository.create(user);
             }
 
@@ -502,7 +503,7 @@ public class MeetingRepository implements IMeetingRepository {
 
 
             Member member = new Member();
-            member.setPhoneNumber(hashedPhoneNumber);
+            member.setPhoneNumber(phoneNumber);
             member.setRole(Role.getGuestRole());
             member.setNick(nameGenerator.getRandomWord());
 
