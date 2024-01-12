@@ -7,7 +7,7 @@ export const Avatar = ({shortName}: {shortName: string}) => (
     </View>
 );
 
-export const LargeAvatar = ({shortName, badge}: {shortName: string; badge?: string}) => (
+export const LargeAvatar = ({shortName, badge}: {shortName: string; badge?: string | null}) => (
     <View>
         <View className="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-gray-100 rounded-full border-2 border-gray-800">
             <Text className="font-medium text-gray-600 text-xl">{shortName.toUpperCase()}</Text>

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Dialog from 'react-native-dialog';
 import {useMeetingsStore} from '../../../lib/meetings/meetingsStore';
 import {useAuthStore} from '../../../lib/auth/authStore';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 export const ParticipantInviteButton = ({meetingId}: {meetingId: string}) => {
     const {token} = useAuthStore();
@@ -29,11 +30,7 @@ export const ParticipantInviteButton = ({meetingId}: {meetingId: string}) => {
     return (
         <>
             <TouchableOpacity onPress={handleUserInvite}>
-                <View className="w-12 h-12 flex items-center justify-center">
-                    <View className="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-violet-600 rounded-full">
-                        <Text className="font-light text-black text-2xl">+</Text>
-                    </View>
-                </View>
+                <Icon name="pluscircle" size={25} color="#7c3aed" />
             </TouchableOpacity>
             <Dialog.Container visible={showInviteDialog}>
                 <Dialog.Title>Invite user</Dialog.Title>

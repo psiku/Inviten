@@ -9,8 +9,8 @@ import {useAuthStore} from '../../../lib/auth/authStore';
 import {isMeetingAdmin} from '../../../utils/meetingHelpers';
 
 const getTruncatedNick = (nick: string) => {
-    if (nick.length > 8) {
-        return nick.substring(0, 8) + '...';
+    if (nick.length > 12) {
+        return nick.substring(0, 12) + '...';
     }
 
     return nick;
@@ -21,16 +21,25 @@ export const ParticipantsList = ({meeting}: {meeting: Meeting}) => {
 
     const renderItem = ({item}: {item: Participant}) => (
         <View className="flex items-center">
-            <LargeAvatar shortName={item.phoneNumber[0]} badge={item.role} />
+            <LargeAvatar
+                shortName={item.phoneNumber[0]}
+                badge={isMeetingAdmin(meeting, item.phoneNumber) ? item.role : null}
+            />
             <View className="mt-3 px-2">
-                <Text className="text-gray-100 text-xs font-semibold">{getTruncatedNick(item.nick)}</Text>
+                <Text className="text-gray-100 text-xs font-semibold flex flex-wrap w-12">
+                    {getTruncatedNick(item.nick)}
+                </Text>
             </View>
         </View>
     );
 
     return (
         <View className="flex-row">
-            {isMeetingAdmin(meeting, user) && <ParticipantInviteButton meetingId={meeting?.id} />}
+            {isMeetingAdmin(meeting, user) && (
+                <View className="px-2 h-12 flex items-center justify-center">
+                    <ParticipantInviteButton meetingId={meeting?.id} />
+                </View>
+            )}
 
             <FlatList
                 horizontal
