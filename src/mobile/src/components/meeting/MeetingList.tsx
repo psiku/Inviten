@@ -51,5 +51,12 @@ export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) 
             }
         });
 
-    return <FlatList data={getOrderedMeetings(meetings)} renderItem={renderItem} keyExtractor={item => item.id} />;
+    return (
+        <FlatList
+            data={getOrderedMeetings(meetings)}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+        />
+    );
 };

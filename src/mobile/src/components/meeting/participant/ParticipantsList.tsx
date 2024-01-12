@@ -8,6 +8,9 @@ import {ParticipantInviteButton} from './ParticipantInviteButton';
 import {useAuthStore} from '../../../lib/auth/authStore';
 import {isMeetingAdmin} from '../../../utils/meetingHelpers';
 
+const getShortName = (participant: Participant) =>
+    participant.nick != null && participant.nick.length > 0 ? participant.nick[0] : participant.phoneNumber[0];
+
 const getTruncatedNick = (nick: string) => {
     if (nick.length > 12) {
         return nick.substring(0, 12) + '...';
@@ -19,15 +22,17 @@ const getTruncatedNick = (nick: string) => {
 export const ParticipantsList = ({meeting}: {meeting: Meeting}) => {
     const {user} = useAuthStore();
 
+    const isMe = (participant: Participant) => participant?.phoneNumber === user;
+
     const renderItem = ({item}: {item: Participant}) => (
         <View className="flex items-center">
             <LargeAvatar
-                shortName={item.phoneNumber[0]}
+                shortName={isMe(item) ? 'I' : getShortName(item)}
                 badge={isMeetingAdmin(meeting, item.phoneNumber) ? item.role : null}
             />
             <View className="mt-3 px-2">
-                <Text className="text-gray-100 text-xs font-semibold flex flex-wrap w-12">
-                    {getTruncatedNick(item.nick)}
+                <Text className="text-gray-100 text-xs font-semibold flex text-center flex-wrap w-12">
+                    {isMe(item) ? 'Me' : getTruncatedNick(item.nick)}
                 </Text>
             </View>
         </View>

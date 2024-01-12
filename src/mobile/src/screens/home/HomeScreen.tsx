@@ -21,14 +21,12 @@ export const HomeScreen: NavigationFunctionComponent = props => {
         <SafeAreaView>
             <View className="p-5">
                 <View className="flex-row justify-between items-center">
-                    <Text className="text-gray-100 text-3xl font-semibold">
-                        Meetings
-                    </Text>
+                    <Text className="text-gray-100 text-3xl font-semibold">Meetings</Text>
                     <View>
                         <MeetingAddButton />
                     </View>
                 </View>
-                <View className="mt-10">
+                <View className="mt-10 mb-12">
                     <MeetingList onSelect={handleMeetingSelect} />
                 </View>
             </View>
