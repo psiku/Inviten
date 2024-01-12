@@ -491,8 +491,10 @@ public class MeetingRepository implements IMeetingRepository {
                 userRepository.create(user);
             }
 
+            User newUser = userRepository.show(hashedPhoneNumber);
+
             // lista spotkań MeeeetingUsera
-            List<String> userMeetings = user.getMeetingsIds();
+            List<String> userMeetings = newUser.getMeetingsIds();
             if(userMeetings == null){
                 userMeetings = List.of(meetingId);
             }
@@ -512,9 +514,9 @@ public class MeetingRepository implements IMeetingRepository {
             }else {
                 participants.add(member);
             }
-            user.setMeetingsIds(userMeetings);
+            newUser.setMeetingsIds(userMeetings);
             meeting.setParticipants(participants);
-            usersTable.putItem(user);
+            usersTable.putItem(newUser);
             table.putItem(meeting); //kom  1
             return member;
         } catch (Exception e) {
