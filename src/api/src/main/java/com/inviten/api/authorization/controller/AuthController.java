@@ -56,9 +56,9 @@ public class AuthController {
             Authentication authentication =
                     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getPhoneNumber(), loginReq.getPassword()));
             String phoneNumber = authentication.getName(); // pobiera numer telefonu
-//            String newPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
+            String newPhoneNumber = phoneHash.hashPhoneNumber(phoneNumber);
             // sprawdź czy istnieje jak nie to stwórz jak nie pobierz z bazy ! ! !
-            User user = userRepository.findUserByID(phoneNumber);
+            User user = userRepository.findUserByID(newPhoneNumber);
             userRepository.create(user);
             String token = jwtUtil.createToken(user);
 
@@ -72,7 +72,7 @@ public class AuthController {
 
             String expirationTimestampAsString = timeConverter.convertTimestampToIso8601(expirationTimestamp);
 
-            LoginRes loginRes = new LoginRes(phoneNumber,token, expirationTimestampAsString);
+            LoginRes loginRes = new LoginRes(newPhoneNumber,token, expirationTimestampAsString);
 
             loginRes.setTokenValidity(expirationTimestampAsString);
 
