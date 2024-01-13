@@ -295,4 +295,20 @@ export const inviteUser = async (token: string, meetingId: string, phoneNumber: 
     );
     return response.data;
 };
+<<<<<<< HEAD
 >>>>>>> 8fd55bd (Optimise date adding)
+=======
+
+export const changeUserMeetingIcon = async (token: string, meetingId: string, icon: string) => {
+    const response = await apiClient.put(
+        `/meetings/${meetingId}/icon/${icon}`,
+        {icon},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+    return response.data;
+};
+>>>>>>> f3d63e9 (Icon selection with api and refactor)

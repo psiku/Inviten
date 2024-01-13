@@ -39,7 +39,7 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
         <SafeAreaView>
             <View className="p-5 pt-2 h-screen">
                 <View className="flex-row justify-between">
-                    <IconSelector />
+                    <IconSelector meeting={meeting} />
                     <MeetingCreatedAtBadge meeting={meeting} />
                 </View>
                 <View className="my-1 flex-row">
