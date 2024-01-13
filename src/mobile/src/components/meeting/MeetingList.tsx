@@ -58,7 +58,7 @@ export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) 
 
     const onRefresh = async () => {
         setRefreshing(true);
-        await fetchMeetings(token);
+        await Promise.all([fetchMeetings(token), new Promise(resolve => setTimeout(resolve, 900))]);
         setRefreshing(false);
     };
 
