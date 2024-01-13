@@ -15,6 +15,7 @@ import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 import {useAuthStore} from '../../lib/auth/authStore';
 import {isMeetingAdmin} from '../../utils/meetingHelpers';
 import {ParticipantsList} from '../../components/meeting/participant/ParticipantsList';
+import {IconSelector} from '../../components/meeting/icon/IconSelector';
 
 type MeetingScreenProps = {
     meeting: Meeting;
@@ -36,13 +37,14 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
 
     return (
         <SafeAreaView>
-            <View className="p-5 h-screen">
-                <View className="mb-1 flex-row justify-between">
-                    <View className="flex-row">
-                        <MeetingOwnerBadge meeting={meeting} />
-                        <MeetingStateBadge meeting={meeting} />
-                    </View>
+            <View className="p-5 pt-2 h-screen">
+                <View className="flex-row justify-between">
+                    <IconSelector />
                     <MeetingCreatedAtBadge meeting={meeting} />
+                </View>
+                <View className="my-1 flex-row">
+                    <MeetingOwnerBadge meeting={meeting} />
+                    <MeetingStateBadge meeting={meeting} />
                 </View>
                 <Text className="text-gray-100 text-3xl font-semibold">{meeting?.name}</Text>
                 <View className="mt-5">
