@@ -311,4 +311,20 @@ export const changeUserMeetingIcon = async (token: string, meetingId: string, ic
     );
     return response.data;
 };
+<<<<<<< HEAD
 >>>>>>> f3d63e9 (Icon selection with api and refactor)
+=======
+
+export const changeUserMeetingDuration = async (token: string, meetingId: string, duration: number) => {
+    const response = await apiClient.put(
+        `/meetings/${meetingId}/duration/${duration}`,
+        {duration},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        },
+    );
+    return response.data;
+};
+>>>>>>> 53bb38b (Add duration specification)

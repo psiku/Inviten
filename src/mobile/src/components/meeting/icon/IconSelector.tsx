@@ -23,7 +23,7 @@ export const IconSelector = ({meeting}: {meeting: Meeting}) => {
 
     const [selectedIcon, setSelectedIcon] = useState<string>(meeting?.icon || 'handshake');
 
-    const handleIconChange = async (value: string) => {
+    const handleIconChange = (value: string) => {
         setSelectedIcon(value);
     };
 
@@ -41,6 +41,7 @@ export const IconSelector = ({meeting}: {meeting: Meeting}) => {
             style={{inputIOS: {fontSize: 30}}}
             placeholder={{}}
             disabled={!isMeetingAdmin(meeting, user)}
+            doneText="Choose"
         />
     );
 };

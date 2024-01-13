@@ -35,7 +35,7 @@ export const DateAddButton = ({meetingId}: {meetingId: string}) => {
 
     return (
         <>
-            <TouchableOpacity onPress={handlePick}>
+            <TouchableOpacity onPress={handlePick} className="ml-2">
                 <Icon name="pluscircle" size={25} color="#7c3aed" />
             </TouchableOpacity>
             <DatePicker

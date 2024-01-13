@@ -16,6 +16,7 @@ import {useAuthStore} from '../../lib/auth/authStore';
 import {isMeetingAdmin} from '../../utils/meetingHelpers';
 import {ParticipantsList} from '../../components/meeting/participant/ParticipantsList';
 import {IconSelector} from '../../components/meeting/icon/IconSelector';
+import {DurationSpecifyButton} from '../../components/meeting/date/DurationSpecifyButton';
 
 type MeetingScreenProps = {
     meeting: Meeting;
@@ -52,10 +53,13 @@ export const MeetingScreen: NavigationFunctionComponent<MeetingScreenProps> = pr
                 </View>
                 <View className="mt-5">
                     <View className="mb-4 flex-row justify-between items-center">
-                        <Text className="text-gray-400/90 font-bold">Meeting date</Text>
-                        {meeting?.isDateChosen || !isMeetingAdmin(meeting, user) ? null : (
-                            <DateAddButton meetingId={meeting?.id} />
-                        )}
+                        <Text className="text-gray-400/90 font-bold">Meeting date & time</Text>
+                        <View className="flex flex-row">
+                            <DurationSpecifyButton meeting={meeting} />
+                            {meeting?.isDateChosen || !isMeetingAdmin(meeting, user) ? null : (
+                                <DateAddButton meetingId={meeting?.id} />
+                            )}
+                        </View>
                     </View>
                     {meeting?.isDateChosen ? (
                         <DateScheduledCard date={meeting?.date} />
