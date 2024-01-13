@@ -134,5 +134,16 @@ public class MeetingController {
 
         meetingRepository.deleteIcon(meetingId);
     }
+
+    @PutMapping("meetings/{meetingId}/duration/{durationMinutes}")
+    public Integer addDuration(@PathVariable String meetingId, @PathVariable Integer durationMinutes){
+        return meetingRepository.addDuration(meetingId, durationMinutes);
+    }
+
+    @DeleteMapping("meetings/{meetingId}/duration")
+    public void deleteDuration(@PathVariable String meetingId){
+
+        meetingRepository.deleteDuration(meetingId);
+    }
 }
 >>>>>>> 0508e92 (change invite methid)

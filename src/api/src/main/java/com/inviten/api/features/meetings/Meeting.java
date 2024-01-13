@@ -26,7 +26,15 @@ import java.util.Date;
 import java.util.List;
 import java.time.LocalTime;
 import java.util.UUID;
+<<<<<<< HEAD
 >>>>>>> 0508e92 (change invite methid)
+=======
+import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+
+
+>>>>>>> 2a621f0 (Implemented duration)
 
 
 @DynamoDbBean
@@ -62,7 +70,14 @@ public class Meeting {
 =======
     private String icon;
 
+<<<<<<< HEAD
 >>>>>>> 11707ac (Implemented icon)
+=======
+    private Integer duration;
+
+    private boolean isFinished;
+
+>>>>>>> 2a621f0 (Implemented duration)
     @DynamoDbPartitionKey
     public String getId() {
         return id;
@@ -261,6 +276,36 @@ public class Meeting {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public boolean getIsFinished(){
+        if (isDateChosen) {
+            LocalDateTime currentDate = LocalDateTime.now();
+
+            DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            LocalDateTime parsedDate = LocalDateTime.parse(date, iso8601Format);
+
+            if (duration != null) {
+                LocalDateTime totalDate = parsedDate.plusMinutes(duration);
+                if (totalDate.isBefore(currentDate)) {
+                    return true;
+                }
+            } else {
+                if (parsedDate.isBefore(currentDate)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
 
 >>>>>>> 0508e92 (change invite methid)
