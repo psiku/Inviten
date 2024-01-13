@@ -123,5 +123,16 @@ public class MeetingController {
     public void degradateMember (@PathVariable  String meetingId, @PathVariable String userId){
         meetingRepository.degradateMember(meetingId, userId);
     }
+
+    @PutMapping("meetings/{meetingId}/icon/{iconName}")
+    public String addIcon(@PathVariable String meetingId, @PathVariable String iconName){
+        return meetingRepository.addIcon(meetingId, iconName);
+    }
+
+    @DeleteMapping("meetings/{meetingId}/icon")
+    public void deleteIcon(@PathVariable String meetingId){
+
+        meetingRepository.deleteIcon(meetingId);
+    }
 }
 >>>>>>> 0508e92 (change invite methid)

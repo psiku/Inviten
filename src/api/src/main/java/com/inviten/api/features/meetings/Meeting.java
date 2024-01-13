@@ -57,7 +57,12 @@ public class Meeting {
 
     private String createdAt;
 
+<<<<<<< HEAD
 >>>>>>> 0508e92 (change invite methid)
+=======
+    private String icon;
+
+>>>>>>> 11707ac (Implemented icon)
     @DynamoDbPartitionKey
     public String getId() {
         return id;
@@ -247,6 +252,14 @@ public class Meeting {
     }
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
 

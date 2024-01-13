@@ -709,5 +709,28 @@ public class MeetingRepository implements IMeetingRepository {
 
         }
     }
+
+    @Override
+    public String addIcon(String meetingId, String iconName){
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException();
+        }
+        meeting.setIcon(iconName);
+        table.putItem(meeting);
+        return null;
+    }
+
+    @Override
+    public void deleteIcon(String meetingId){
+        Meeting meeting = one(meetingId);
+        if (meeting == null) {
+            throw new NotFoundException();
+        }
+        meeting.setIcon(null);
+        table.putItem(meeting);
+    }
+
+
 }
 >>>>>>> 0508e92 (change invite methid)
