@@ -9,6 +9,10 @@ import {useMeetingsStore} from '../../lib/meetings/meetingsStore';
 import {MeetingStateBadge} from './MeetingStateBadge';
 import {MeetingOwnerBadge} from './MeetingOwnerBadge';
 import {MeetingCreatedAtBadge} from './MeetingCreatedAtBadge';
+import {classNames} from '../../utils/styleHelpers';
+import {DurationBadge} from './date/DurationBadge';
+import {DateScheduledCard} from './date/DateScheduledCard';
+import {DateScheduledBadge} from './date/DateScheduledBadge';
 
 const defaultIcon = 'handshake';
 
@@ -24,13 +28,19 @@ export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) 
     }, []);
 
     useEffect(() => {
-        const scheduled = meetings.filter(
-            meeting => meeting.isDateChosen && meeting.isPlaceChosen && !meeting.isFinished,
-        );
-        const inPlaning = meetings.filter(meeting => !meeting.isDateChosen || !meeting.isPlaceChosen);
+        const running = meetings.filter(meeting => meeting.isRunning);
+        const scheduled = meetings.filter(meeting => meeting.isDateChosen && !meeting.isRunning && !meeting.isFinished);
+        const inPlaning = meetings.filter(meeting => !meeting.isDateChosen);
         const past = meetings.filter(meeting => meeting.isFinished);
 
         const partitonedMeetingsList = [];
+
+        if (running.length > 0) {
+            partitonedMeetingsList.push({
+                title: 'Running',
+                data: running,
+            });
+        }
 
         if (scheduled.length > 0) {
             partitonedMeetingsList.push({
@@ -68,9 +78,15 @@ export const MeetingList = ({onSelect = _ => {}}: {onSelect: (meeting: Meeting) 
                 <View className="mb-1 flex-row justify-between">
                     <View className="flex-row">
                         <MeetingOwnerBadge meeting={item} />
-                        <MeetingStateBadge meeting={item} />
+                        {/* <MeetingStateBadge meeting={item} /> */}
                     </View>
-                    <MeetingCreatedAtBadge meeting={item} />
+                    {item.isRunning ? (
+                        <DurationBadge meeting={item} />
+                    ) : !item.isFinished && item.isDateChosen ? (
+                        <DateScheduledBadge date={item.date} />
+                    ) : (
+                        <MeetingCreatedAtBadge meeting={item} />
+                    )}
                 </View>
                 <Text className="text-gray-200 text-lg  font-semibold">
                     {item.icon ? emoji.get(item.icon) : emoji.get(defaultIcon)} {item.name}

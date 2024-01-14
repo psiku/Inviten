@@ -77,7 +77,12 @@ public class Meeting {
 
     private boolean isFinished;
 
+<<<<<<< HEAD
 >>>>>>> 2a621f0 (Implemented duration)
+=======
+    private boolean isRunning;
+
+>>>>>>> 44bbf4d (Add duration badge and additional split)
     @DynamoDbPartitionKey
     public String getId() {
         return id;
@@ -288,22 +293,33 @@ public class Meeting {
     public boolean getIsFinished(){
         if (isDateChosen) {
             LocalDateTime currentDate = LocalDateTime.now();
-
-            DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-            LocalDateTime parsedDate = LocalDateTime.parse(date, iso8601Format);
-
-            if (duration != null) {
-                LocalDateTime totalDate = parsedDate.plusMinutes(duration);
-                if (totalDate.isBefore(currentDate)) {
-                    return true;
-                }
-            } else {
-                if (parsedDate.isBefore(currentDate)) {
-                    return true;
-                }
-            }
+            return currentDate.isAfter(getEndDate());
         }
         return false;
+    }
+
+    public boolean getIsRunning() {
+        if (isDateChosen) {
+            LocalDateTime currentDate = LocalDateTime.now();
+            return currentDate.isBefore(getEndDate()) && currentDate.isAfter(getStartDate());
+        }
+        return false;
+    }
+
+    private LocalDateTime getStartDate() {
+        DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        return LocalDateTime.parse(date, iso8601Format);
+    }
+
+    private LocalDateTime getEndDate() {
+        DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        LocalDateTime startDate = LocalDateTime.parse(date, iso8601Format);
+
+        if (duration != null) {
+            startDate = startDate.plusMinutes(duration);
+        }
+
+        return startDate;
     }
 
 }

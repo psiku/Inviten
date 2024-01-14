@@ -31,7 +31,9 @@ export const DurationSpecifyButton = ({meeting}: {meeting: Meeting}) => {
         await changeDuration(token, meeting.id, durationValue);
     };
 
-    const renderIcon = () => <Icon name="timer-outline" size={25} color="#7c3aed" />;
+    const canBeEdited = () => isMeetingAdmin(meeting, user) && !meeting.isDateChosen;
+
+    const renderIcon = () => canBeEdited() && <Icon name="timer-outline" size={25} color="#7c3aed" />;
 
     return (
         <>
@@ -46,12 +48,12 @@ export const DurationSpecifyButton = ({meeting}: {meeting: Meeting}) => {
                         color: '#7c3aed',
                         fontWeight: 'bold',
                         marginTop: 5,
-                        marginRight: 30,
+                        marginRight: canBeEdited() ? 30 : 0,
                     },
                 }}
                 placeholder={{}}
                 Icon={renderIcon}
-                disabled={!isMeetingAdmin(meeting, user)}
+                disabled={!canBeEdited()}
                 doneText="Choose"
             />
         </>

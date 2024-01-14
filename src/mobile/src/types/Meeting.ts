@@ -33,6 +33,7 @@ export type Meeting = {
     placeProposals: PlaceProposal[];
     icon: string | null;
     isFinished: boolean;
+    isRunning: boolean;
     duration: number;
 };
 >>>>>>> 8fd55bd (Optimise date adding)

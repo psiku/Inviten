@@ -2,14 +2,16 @@ import React from 'react';
 import {Text} from 'react-native';
 import {Meeting} from '../../types/Meeting';
 
+const RunningStateBadge = () => {
+    return <Text className="text-xs font-bold text-violet-400">running</Text>;
+};
+
 const PlaningStateBadge = () => {
-    return (
-        <Text className="text-xs font-bold text-violet-400">in planing</Text>
-    );
+    return <Text className="text-xs font-bold text-gray-400">in planing</Text>;
 };
 
 const ScheduledStateBadge = () => {
-    return <Text className="text-xs font-bold text-green-400">scheduled</Text>;
+    return <Text className="text-xs font-bold text-lime-400">scheduled</Text>;
 };
 
 const PastStateBadge = () => {
@@ -17,13 +19,15 @@ const PastStateBadge = () => {
 };
 
 export const MeetingStateBadge = ({meeting}: {meeting: Meeting}) => {
-    const meetingDateTime = new Date(meeting?.date);
+    if (meeting?.isRunning) {
+        return <RunningStateBadge />;
+    }
 
-    if (meeting?.date != null && meetingDateTime < new Date()) {
+    if (meeting?.isFinished) {
         return <PastStateBadge />;
     }
 
-    if (meeting?.isDateChosen && meeting?.isPlaceChosen) {
+    if (meeting?.isDateChosen) {
         return <ScheduledStateBadge />;
     }
 
